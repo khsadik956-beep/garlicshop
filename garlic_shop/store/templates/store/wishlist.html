@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<section class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold mb-1">My Wishlist</h1>
+      <p class="text-muted mb-0">Jo products pasand aaye, yahan save rahenge.</p>
+    </div>
+    <a href="{% url 'home' %}#products" class="btn btn-outline-success">Shop More</a>
+  </div>
+
+  <div class="row g-4">
+    {% for item in wishlist_items %}
+    <div class="col-lg-3 col-md-6">
+      <div class="premium-card">
+        <div class="product-image">
+          {% if item.product.image %}
+          <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+          {% else %}
+          <img src="{% static 'images/no-image.png' %}" alt="No Image">
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5>{{ item.product.name }}</h5>
+          <p>{{ item.product.description|truncatechars:80 }}</p>
+          <div class="price-row"><h4>Rs. {{ item.product.price }}</h4></div>
+          <div class="d-grid gap-2">
+            <a href="{% url 'add_to_cart' item.product.id %}" class="btn-cart">
+              <i class="fas fa-shopping-cart me-2"></i>Add To Cart
+            </a>
+            <a href="{% url 'move_to_buy_later' item.product.id %}" class="btn btn-outline-secondary w-100">
+              <i class="fas fa-clock me-2"></i>Buy Later
+            </a>
+            <form method="post" action="{% url 'toggle_wishlist' item.product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'wishlist' %}">
+              <button class="btn btn-outline-danger w-100">
+                <i class="fas fa-heart me-2"></i>Remove
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="empty-state">
+        <i class="far fa-heart"></i>
+        <h3>Wishlist empty hai</h3>
+        <p>Products browse karke heart button dabao.</p>
+        <a href="{% url 'home' %}#products" class="btn btn-success">View Products</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

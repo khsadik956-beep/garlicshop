@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">GarlicShop mark</title>
+  <defs>
+    <linearGradient id="bg" x1="12" y1="10" x2="82" y2="88" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#fff2c2"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="24" y1="25" x2="70" y2="78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe177"/>
+      <stop offset="1" stop-color="#d6a72a"/>
+    </linearGradient>
+    <linearGradient id="green" x1="27" y1="14" x2="72" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#41c267"/>
+      <stop offset="1" stop-color="#17683a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="48" cy="48" r="42" fill="#17683a"/>
+  <circle cx="48" cy="48" r="35" fill="url(#bg)"/>
+  <path d="M58 17c-13 1-24 9-28 21 13 2 25-3 31-14 3-5 2-8-3-7Z" fill="url(#green)"/>
+  <path d="M48 29c12 7 19 18 19 31 0 11-8 19-19 19s-19-8-19-19c0-13 7-24 19-31Z" fill="url(#gold)"/>
+  <path d="M48 34c-5 7-8 16-8 27 0 7 3 13 8 16 5-3 8-9 8-16 0-11-3-20-8-27Z" fill="#fff6d7" opacity=".82"/>
+  <path d="M37 58c8 3 16 3 24 0" fill="none" stroke="#8c6816" stroke-width="3" stroke-linecap="round" opacity=".3"/>
+  <path d="M57 43c-2-4-6-6-10-6-8 0-14 6-14 15s6 16 16 16c6 0 10-2 14-6v-9H49" fill="none" stroke="#17683a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

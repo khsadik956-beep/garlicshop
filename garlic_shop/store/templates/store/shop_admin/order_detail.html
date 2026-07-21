@@ -1,0 +1,167 @@
+{% extends 'store/shop_admin/base.html' %}
+{% block title %}Order Detail{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="page-title mb-0">Order #GS-00{{ order.id }}</h1>
+    <div class="d-flex gap-2">
+        <a href="{% url 'packing_slip' order.id %}" class="btn btn-outline-primary" target="_blank">
+            <i class="fas fa-box-open me-1"></i> Packing Slip
+        </a>
+        <a href="{% url 'invoice_pdf' order.id %}" class="btn btn-success">
+            <i class="fas fa-file-invoice me-1"></i> Invoice PDF
+        </a>
+    </div>
+</div>
+<div class="panel mb-3">
+    <h5 class="fw-bold mb-2">Quick Actions</h5>
+    <div class="d-flex flex-wrap gap-2">
+        {% for action,label in order.STATUS_CHOICES %}
+        <form method="post" action="{% url 'shop_admin_order_quick_action' order.id action %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'shop_admin_order_detail' order.id %}">
+            <button class="btn btn-sm {% if order.status == action %}btn-primary{% else %}btn-outline-secondary{% endif %}">
+                {{ label }}
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Items</h5>
+            <table class="table align-middle">
+                <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>Rs. {{ item.price }}</td>
+                        <td>Rs. {% widthratio item.price 1 item.quantity %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Tracking</h5>
+            {% for step in order.tracking_steps.all %}
+            <div class="border-bottom py-2">
+                <strong>{{ step.title }}</strong>
+                <span class="badge {% if step.completed %}bg-success{% else %}bg-secondary{% endif %} ms-2">{% if step.completed %}Done{% else %}Pending{% endif %}</span>
+                <div class="small text-muted">{{ step.note }}</div>
+            </div>
+            {% empty %}<p class="text-muted mb-0">No tracking steps yet.</p>{% endfor %}
+        </div>
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Add Tracking Step</h5>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="tracking">
+                {{ tracking_form.as_p }}
+                <button class="btn btn-primary fw-bold">Add Tracking</button>
+            </form>
+        </div>
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Payment Transactions</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead><tr><th>Gateway</th><th>Amount</th><th>Status</th><th>Payment ID</th><th>Date</th></tr></thead>
+                    <tbody>
+                        {% for payment in order.payments.all %}
+                        <tr>
+                            <td>{{ payment.gateway }}</td>
+                            <td>Rs. {{ payment.amount }}</td>
+                            <td>{{ payment.get_status_display }}</td>
+                            <td>{{ payment.gateway_payment_id|default:"-" }}</td>
+                            <td>{{ payment.created_at|date:"d M Y H:i" }}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="5" class="text-muted">No payment records yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel mb-3">
+            <h5 class="fw-bold">Customer</h5>
+            <p class="mb-1"><strong>Invoice:</strong> {{ order.invoice_number|default:"Pending" }}</p>
+            <p class="mb-1">{{ order.shipping_name|default:order.user.username }}</p>
+            <p class="mb-1">{{ order.shipping_phone }}</p>
+            <p class="text-muted">{{ order.shipping_address }}</p>
+            <p class="mb-1"><strong>PIN:</strong> {{ order.delivery_pincode|default:"-" }}</p>
+            <p class="mb-1"><strong>Courier:</strong> {{ order.courier_name|default:"-" }}</p>
+            <p class="mb-1"><strong>Tracking:</strong> {{ order.tracking_number|default:"-" }}</p>
+            <p class="mb-1"><strong>Expected:</strong> {{ order.expected_delivery_date|date:"d M Y"|default:"-" }}</p>
+            <p class="mb-0"><strong>Payment:</strong> {{ order.payment_method }} / {{ order.get_payment_status_display }}</p>
+        </div>
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Bill Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal</span>
+                <strong>Rs. {{ order.display_subtotal }}</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+                <span>Delivery</span>
+                <strong>Rs. {{ order.delivery_charge }}</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+                <span>Discount{% if order.coupon_code %} ({{ order.coupon_code }}){% endif %}</span>
+                <strong>- Rs. {{ order.discount_amount }}</strong>
+            </div>
+            <div class="d-flex justify-content-between border-top pt-2">
+                <span>Total</span>
+                <strong class="text-success">Rs. {{ order.total_amount }}</strong>
+            </div>
+        </div>
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Update Status</h5>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="status">
+                {{ form.as_p }}
+                <button class="btn btn-primary w-100 fw-bold">Save Status</button>
+            </form>
+        </div>
+        <div class="panel mt-3">
+            <h5 class="fw-bold mb-3">Delivery Tracking</h5>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="logistics">
+                {{ logistics_form.as_p }}
+                <button class="btn btn-warning w-100 fw-bold">Save Tracking Details</button>
+            </form>
+        </div>
+        <div class="panel mt-3">
+            <h5 class="fw-bold mb-3">Update Payment</h5>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="payment">
+                {{ payment_form.as_p }}
+                <button class="btn btn-success w-100 fw-bold">Save Payment</button>
+            </form>
+        </div>
+        <div class="panel mt-3">
+            <h5 class="fw-bold mb-3">Customer Notification</h5>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="notification">
+                {{ notification_form.as_p }}
+                <button class="btn btn-outline-primary w-100 fw-bold">Add Notification Log</button>
+            </form>
+            <hr>
+            {% for note in order.notifications.all %}
+                <div class="border-bottom py-2">
+                    <strong>{{ note.get_channel_display }}</strong>
+                    <span class="badge bg-secondary">{{ note.get_status_display }}</span>
+                    <div class="small text-muted">{{ note.recipient }}</div>
+                    <div class="small">{{ note.message }}</div>
+                </div>
+            {% empty %}
+                <p class="text-muted mb-0">No notification logs yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

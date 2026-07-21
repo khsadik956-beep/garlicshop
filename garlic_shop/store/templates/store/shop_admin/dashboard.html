@@ -1,0 +1,56 @@
+﻿{% extends 'store/shop_admin/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="page-title">Dashboard</h1>
+<div class="row g-3 mb-3">
+    <div class="col-md-3"><div class="metric"><small>Total Products</small><h3>{{ total_products }}</h3></div></div>
+    <div class="col-md-3"><div class="metric"><small>Active Products</small><h3>{{ active_products }}</h3></div></div>
+    <div class="col-md-3"><div class="metric"><small>Total Orders</small><h3>{{ total_orders }}</h3></div></div>
+    <div class="col-md-3"><div class="metric"><small>Revenue</small><h3>Rs. {{ total_revenue }}</h3></div></div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Latest Orders</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                        {% for order in latest_orders %}
+                        <tr>
+                            <td>#GS-00{{ order.id }}</td>
+                            <td>{{ order.shipping_name }}</td>
+                            <td>Rs. {{ order.total_amount }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td><a class="btn btn-sm btn-primary" href="{% url 'shop_admin_order_detail' order.id %}">Open</a></td>
+                        </tr>
+                        {% empty %}<tr><td colspan="5" class="text-muted">No orders yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel">
+            <h5 class="fw-bold mb-3">New Bulk Inquiries</h5>
+            {% for inquiry in bulk_inquiries %}
+                <div class="border-bottom py-2">
+                    <strong>{{ inquiry.name }}</strong> wants {{ inquiry.quantity }} {{ inquiry.product_needed }}<br>
+                    <small class="text-muted">{{ inquiry.city }} | {{ inquiry.phone }}</small>
+                </div>
+            {% empty %}<p class="text-muted mb-0">No inquiries yet.</p>{% endfor %}
+        </div>
+        <div class="panel mt-3">
+            <h5 class="fw-bold mb-3">Low Stock Alerts</h5>
+            {% for product in low_stock_products %}
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>{{ product.name }}</span>
+                    <strong class="{% if product.stock_quantity == 0 %}text-danger{% else %}text-warning{% endif %}">
+                        {{ product.stock_quantity }} left
+                    </strong>
+                </div>
+            {% empty %}<p class="text-muted mb-0">Stock looks healthy.</p>{% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

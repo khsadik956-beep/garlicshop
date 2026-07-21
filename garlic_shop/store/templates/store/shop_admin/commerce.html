@@ -1,0 +1,71 @@
+{% extends 'store/shop_admin/base.html' %}
+{% block title %}Coupons & Delivery{% endblock %}
+{% block content %}
+<h1 class="page-title">Coupons & Delivery</h1>
+
+<div class="row g-3">
+    <div class="col-lg-5">
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Add Coupon</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="coupon">
+                {{ coupon_form.as_p }}
+                <button class="btn btn-primary w-100 fw-bold">Save Coupon</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Add Delivery Zone</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="zone">
+                {{ zone_form.as_p }}
+                <button class="btn btn-primary w-100 fw-bold">Save Zone</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Coupons</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead><tr><th>Code</th><th>Discount</th><th>Minimum</th><th>Active</th></tr></thead>
+                    <tbody>
+                        {% for coupon in coupons %}
+                        <tr>
+                            <td><strong>{{ coupon.code }}</strong></td>
+                            <td>{{ coupon.discount_value }} {{ coupon.get_discount_type_display }}</td>
+                            <td>Rs. {{ coupon.min_order_amount }}</td>
+                            <td>{{ coupon.is_active|yesno:"Yes,No" }}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="4" class="text-muted">No coupons yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Delivery Zones</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead><tr><th>PIN Prefix</th><th>City</th><th>State</th><th>Charge</th><th>Free Above</th><th>Active</th></tr></thead>
+                    <tbody>
+                        {% for zone in zones %}
+                        <tr>
+                            <td><strong>{{ zone.pincode_prefix }}</strong></td>
+                            <td>{{ zone.city|default:"-" }}</td>
+                            <td>{{ zone.state|default:"-" }}</td>
+                            <td>Rs. {{ zone.delivery_charge }}</td>
+                            <td>Rs. {{ zone.free_delivery_above }}</td>
+                            <td>{{ zone.is_active|yesno:"Yes,No" }}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="6" class="text-muted">No delivery zones yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

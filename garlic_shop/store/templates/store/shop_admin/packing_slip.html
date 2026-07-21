@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packing Slip #GS-00{{ order.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; color:#111; margin:28px; }
+        .header { display:flex; justify-content:space-between; border-bottom:2px solid #111; padding-bottom:12px; margin-bottom:18px; }
+        h1 { margin:0; font-size:26px; }
+        h2 { margin:0 0 8px; font-size:18px; }
+        .box { border:1px solid #ddd; padding:14px; margin-bottom:14px; }
+        table { width:100%; border-collapse:collapse; }
+        th, td { border:1px solid #ddd; padding:10px; text-align:left; }
+        th { background:#f3f3f3; }
+        .print { margin-bottom:16px; }
+        @media print { .print { display:none; } body { margin:0; } }
+    </style>
+</head>
+<body>
+    <button class="print" onclick="window.print()">Print Packing Slip</button>
+    <div class="header">
+        <div>
+            <h1>GarlicShop</h1>
+            <strong>Packing Slip</strong>
+        </div>
+        <div>
+            <strong>Order:</strong> #GS-00{{ order.id }}<br>
+            <strong>Date:</strong> {{ order.created_at|date:"d M Y" }}
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>Ship To</h2>
+        <strong>{{ order.shipping_name|default:order.user.username }}</strong><br>
+        {{ order.shipping_phone }}<br>
+        {{ order.shipping_address }}<br>
+        PIN: {{ order.delivery_pincode|default:"-" }}
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Product</th><th>SKU</th><th>Qty</th><th>Check</th></tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.sku|default:"-" }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>[ ]</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="box" style="margin-top:14px;">
+        <strong>Courier:</strong> {{ order.courier_name|default:"Pending" }}<br>
+        <strong>Tracking:</strong> {{ order.tracking_number|default:"Pending" }}<br>
+        <strong>Note:</strong> {{ order.order_note|default:"-" }}
+    </div>
+</body>
+</html>

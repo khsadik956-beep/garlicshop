@@ -1,0 +1,61 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="row g-4 align-items-center mb-4">
+        <div class="col-lg-6">
+            <h1 class="fw-bold mb-3">Smart Garlic Guide</h1>
+            <p class="text-muted">
+                Apna use case select karein aur GarlicShop aapko suitable products recommend karega.
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <form method="GET" class="card border-0 shadow-sm p-3">
+                <label class="form-label fw-bold">What do you need garlic for?</label>
+                <div class="d-flex gap-2">
+                    <select name="purpose" class="form-select" onchange="this.form.submit()">
+                        <option value="">All uses</option>
+                        <option value="daily" {% if purpose == "daily" %}selected{% endif %}>Daily cooking</option>
+                        <option value="restaurant" {% if purpose == "restaurant" %}selected{% endif %}>Restaurant use</option>
+                        <option value="pickle" {% if purpose == "pickle" %}selected{% endif %}>Pickle</option>
+                        <option value="bulk" {% if purpose == "bulk" %}selected{% endif %}>Bulk supply</option>
+                        <option value="farming" {% if purpose == "farming" %}selected{% endif %}>Farming / seed</option>
+                        <option value="powder" {% if purpose == "powder" %}selected{% endif %}>Powder / seasoning</option>
+                    </select>
+                    <button class="btn btn-success">Find</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top p-3" style="height:190px;object-fit:contain;" alt="{{ product.name }}">
+                {% else %}
+                    <img src="{% static 'images/no-image.png' %}" class="card-img-top p-3" style="height:190px;object-fit:contain;" alt="No image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="fw-bold">{{ product.name }}</h5>
+                    <p class="text-muted small mb-2">{{ product.best_for }}</p>
+                    <p class="mb-1"><strong>Aroma:</strong> {{ product.aroma_level }}</p>
+                    <p class="mb-2"><strong>Taste:</strong> {{ product.taste_profile }}</p>
+                    <h5 class="text-success fw-bold">Rs. {{ product.price }}</h5>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-success w-100 mt-2">View Product</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-5 text-center">
+                <h4 class="fw-bold">No matching products</h4>
+                <p class="text-muted mb-0">Admin panel me product ka "Best for" field update karein.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

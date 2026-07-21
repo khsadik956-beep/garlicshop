@@ -1,0 +1,472 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarlicShop Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { background-color: #f1f3f6; font-family: Roboto, Arial, sans-serif; }
+        .header-nav { background-color: #2874f0; padding: 12px 0; color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1150px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; }
+        .logo { font-size: 20px; font-weight: 700; font-style: italic; text-decoration: none; color: #fff; }
+        .logo span { color: #ffe500; }
+        .payment-container { max-width: 1150px; margin: 30px auto; padding: 0 15px; }
+        .main-card-layout { background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e0e0e0; }
+        .payment-subheader { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .back-title { font-size: 16px; font-weight: 500; color: #212121; display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .secure-badge { font-size: 12px; color: #878787; border: 1px solid #e0e0e0; padding: 4px 8px; border-radius: 3px; display: flex; align-items: center; gap: 5px; background: #fafafa; }
+        .split-grid { display: grid; grid-template-columns: 2.2fr 1fr; border-top: 1px solid #f0f0f0; }
+        @media (max-width: 768px) { .split-grid { grid-template-columns: 1fr; } }
+        .left-payment-methods { display: grid; grid-template-columns: 1fr 1.2fr; min-height: 480px; background: #fff; }
+        .methods-tabs-list { border-right: 1px solid #f0f0f0; background: #fafafa; }
+        .method-tab-item { padding: 18px 16px; font-size: 14px; font-weight: 500; color: #212121; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; }
+        .method-tab-item span { display: block; font-size: 11px; color: #878787; font-weight: normal; margin-top: 2px; }
+        .method-tab-item.active { background: #fff; border-right: 4px solid #2874f0; font-weight: 600; color: #2874f0; }
+        .method-content-viewer { padding: 24px; background: #fff; border-right: 1px solid #f0f0f0; }
+        .tab-panel-view { display: none; width: 100%; }
+        .tab-panel-view.active { display: block; }
+        .inner-box { border: 1px solid #e0e0e0; border-radius: 4px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff; }
+        .panel-title { font-size: 15px; font-weight: 500; color: #212121; margin-bottom: 12px; }
+        .panel-text { font-size: 13px; color: #878787; line-height: 1.5; margin-bottom: 18px; }
+        .btn-orange-action { background: #fb641b; color: #fff; border: none; width: 100%; padding: 14px 0; font-size: 14px; font-weight: 500; text-transform: uppercase; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); cursor: pointer; }
+        .btn-orange-action:hover { background: #e55616; }
+        .btn-blue-action { background: #2874f0; color: #fff; border: none; width: 100%; padding: 12px 0; font-size: 14px; font-weight: 500; text-transform: uppercase; border-radius: 2px; cursor: pointer; }
+        .form-group-flip { margin-bottom: 16px; }
+        .form-group-flip label { font-size: 12px; color: #878787; font-weight: 500; display: block; margin-bottom: 6px; }
+        .form-group-flip input, .form-group-flip textarea, .form-group-flip select { width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 2px; font-size: 14px; }
+        .form-group-flip input:focus, .form-group-flip textarea:focus { border-color: #2874f0; outline: none; }
+        .form-group-flip input[readonly] { background: #f8f9fa; color: #444; }
+        .pin-status { font-size: 12px; margin-top: -8px; margin-bottom: 12px; min-height: 18px; }
+        .pin-status.ok { color: #388e3c; }
+        .pin-status.error { color: #d32f2f; }
+        .right-price-panel { padding: 24px; background: #fff; }
+        .price-section-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 14px; color: #212121; }
+        .price-section-row.bold-total { border-top: 1px dashed #c2c2c2; border-bottom: 1px dashed #c2c2c2; padding: 18px 0; font-size: 16px; font-weight: 600; color: #212121; margin-top: 15px; }
+        .green-discount { color: #388e3c; font-weight: 500; }
+        .instant-discount-banner { background: #e3f2fd; border: 1px dashed #2196f3; padding: 12px 16px; border-radius: 4px; margin-top: 20px; }
+        .banner-txt { font-size: 13px; color: #0d47a1; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="header-nav">
+        <div class="nav-container">
+            <a href="/" class="logo">Garlic<span>Shop</span></a>
+            <div>
+                <a href="/" class="btn btn-sm btn-light me-2">Home</a>
+                <a href="/my-orders/" class="btn btn-sm btn-outline-light">My Orders</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="payment-container">
+        <div class="main-card-layout">
+            <div class="payment-subheader">
+                <a href="/cart/" class="back-title"><i class="fas fa-arrow-left text-muted"></i> Checkout Flow</a>
+                <div class="secure-badge"><i class="fas fa-lock text-success"></i> 100% Secure</div>
+            </div>
+
+            <div class="split-grid">
+                <div class="p-4 bg-white border-end">
+                    <div id="address-section">
+                        <h4 class="mb-4 fw-bold text-primary"><i class="fas fa-map-marker-alt"></i> 1. Delivery Address</h4>
+                        <div class="inner-box mb-3">
+                            {% if saved_addresses %}
+                            <div class="form-group-flip">
+                                <label>Use Saved Address</label>
+                                <select id="saved-address-select">
+                                    <option value="">Enter new address</option>
+                                    {% for address in saved_addresses %}
+                                    <option
+                                        value="{{ address.id }}"
+                                        data-name="{{ address.full_name }}"
+                                        data-phone="{{ address.phone }}"
+                                        data-pincode="{{ address.pincode }}"
+                                        data-line="{{ address.address_line }}"
+                                        data-area="{{ address.area }}"
+                                        data-city="{{ address.city }}"
+                                        data-state="{{ address.state }}"
+                                        data-country="{{ address.country }}"
+                                        {% if default_address and default_address.id == address.id %}selected{% endif %}>
+                                        {{ address.get_label_display }} - {{ address.full_name }} - {{ address.pincode }}{% if address.is_default %} (Default){% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% else %}
+                            <div class="alert alert-light border small mb-3">
+                                Address save karne ke liye <a href="{% url 'account_profile' %}">Profile</a> page use kar sakte hain.
+                            </div>
+                            {% endif %}
+
+                            <div class="form-group-flip">
+                                <label>Full Name</label>
+                                <input type="text" id="address-name" value="{% if default_address %}{{ default_address.full_name }}{% else %}{{ request.user.username }}{% endif %}" placeholder="Enter full name">
+                            </div>
+
+                            <div class="form-group-flip">
+                                <label>Phone Number</label>
+                                <input type="text" id="address-phone" value="{% if default_address %}{{ default_address.phone }}{% endif %}" placeholder="Enter 10-digit mobile number" maxlength="10">
+                            </div>
+
+                            <div class="form-group-flip">
+                                <label>PIN Code</label>
+                                <input type="text" id="pincode" value="{% if default_address %}{{ default_address.pincode }}{% endif %}" maxlength="6" inputmode="numeric" placeholder="Enter 6 digit PIN code">
+                            </div>
+                            <div id="pin-status" class="pin-status"></div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group-flip">
+                                    <label>Post Office / Area</label>
+                                    <select id="post_office_select">
+                                        {% if default_address and default_address.area %}
+                                        <option value="{{ default_address.area }}" selected>{{ default_address.area }}</option>
+                                        {% else %}
+                                        <option value="">Select area after PIN</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group-flip">
+                                    <label>District</label>
+                                    <input type="text" id="district" value="{% if default_address %}{{ default_address.city }}{% endif %}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group-flip">
+                                    <label>State</label>
+                                    <input type="text" id="state" value="{% if default_address %}{{ default_address.state }}{% endif %}" readonly>
+                                </div>
+                                <div class="col-md-6 form-group-flip">
+                                    <label>Country</label>
+                                    <input type="text" id="country" value="{% if default_address %}{{ default_address.country }}{% else %}India{% endif %}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group-flip">
+                                <label>House No / Street / Landmark</label>
+                                <textarea id="address-text" rows="3" placeholder="House no, street, landmark">{% if default_address %}{{ default_address.address_line }}{% endif %}</textarea>
+                            </div>
+
+                            <div class="form-group-flip">
+                                <label>Coupon Code</label>
+                                <input type="text" id="coupon-code" placeholder="Optional coupon code">
+                            </div>
+
+                            <button type="button" id="continue-btn" class="btn-orange-action mt-2">
+                                Save and Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="payment-section" style="display: none;">
+                        <h4 class="mb-4 fw-bold text-success"><i class="fas fa-credit-card"></i> 2. Select Payment Method</h4>
+
+                        <div class="left-payment-methods border rounded">
+                            <div class="methods-tabs-list">
+                                <div class="method-tab-item active" onclick="switchPaymentTab(event, 'view-recommended')">
+                                    <i class="fas fa-star text-muted"></i> Recommended
+                                </div>
+                                <div class="method-tab-item" onclick="switchPaymentTab(event, 'view-upi')">
+                                    <i class="fas fa-mobile-alt text-muted"></i>
+                                    <div>UPI <span>Pay by any app</span></div>
+                                </div>
+                                <div class="method-tab-item" onclick="switchPaymentTab(event, 'view-card')">
+                                    <i class="fas fa-credit-card text-muted"></i>
+                                    <div>Card <span>5% cashback</span></div>
+                                </div>
+                                <div class="method-tab-item" onclick="switchPaymentTab(event, 'view-cod')">
+                                    <i class="fas fa-money-bill-wave text-muted"></i> Cash on Delivery
+                                </div>
+                                <div class="method-tab-item" onclick="switchPaymentTab(event, 'view-giftcard')">
+                                    <i class="fas fa-gift text-muted"></i> Gift Card
+                                </div>
+                            </div>
+
+                            <div class="method-content-viewer">
+                                <div id="view-recommended" class="tab-panel-view active">
+                                    <div class="inner-box">
+                                        <div class="panel-title">Fastest Checkout</div>
+                                        <p class="panel-text">Select any payment option from the left panel to complete your order.</p>
+                                    </div>
+                                </div>
+
+                                <div id="view-upi" class="tab-panel-view">
+                                    <div class="inner-box">
+                                        <div class="panel-title">Pay via UPI App</div>
+                                        <p class="panel-text">Razorpay keys add hone ke baad UPI payment live ho jayega.</p>
+                                        <form method="POST" action="" class="checkout-payment-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" class="hidden-name" name="shipping_name" value="">
+                                            <input type="hidden" class="hidden-phone" name="shipping_phone" value="">
+                                            <input type="hidden" class="hidden-address" name="shipping_address" value="">
+                                            <input type="hidden" class="hidden-pincode" name="delivery_pincode" value="">
+                                            <input type="hidden" class="hidden-coupon" name="coupon_code" value="">
+                                            <input type="hidden" name="order_note" value="Online payment selected">
+                                            <input type="hidden" name="payment_method" value="RAZORPAY">
+                                            <button type="submit" class="btn-blue-action">Continue to UPI Payment</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="view-card" class="tab-panel-view">
+                                    <div class="inner-box">
+                                        <div class="panel-title">Enter Card Details</div>
+                                        <div class="form-group-flip">
+                                            <label>Card Number</label>
+                                            <input type="text" placeholder="XXXX XXXX XXXX XXXX">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 form-group-flip">
+                                                <label>Expiry</label>
+                                                <input type="text" placeholder="MM/YY">
+                                            </div>
+                                            <div class="col-6 form-group-flip">
+                                                <label>CVV</label>
+                                                <input type="password" placeholder="***">
+                                            </div>
+                                        </div>
+                                        <form method="POST" action="" class="checkout-payment-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" class="hidden-name" name="shipping_name" value="">
+                                            <input type="hidden" class="hidden-phone" name="shipping_phone" value="">
+                                            <input type="hidden" class="hidden-address" name="shipping_address" value="">
+                                            <input type="hidden" class="hidden-pincode" name="delivery_pincode" value="">
+                                            <input type="hidden" class="hidden-coupon" name="coupon_code" value="">
+                                            <input type="hidden" name="order_note" value="Card payment selected">
+                                            <input type="hidden" name="payment_method" value="RAZORPAY">
+                                            <button type="submit" class="btn-orange-action mt-2">Continue to secure payment</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="view-cod" class="tab-panel-view">
+                                    <div class="inner-box">
+                                        <div class="panel-title">Cash on Delivery</div>
+                                        <p class="panel-text">Pay when your garlic products are delivered to your address.</p>
+                                        <form method="POST" action="">
+                                            {% csrf_token %}
+                                            <input type="hidden" id="hidden-name" class="hidden-name" name="shipping_name" value="">
+                                            <input type="hidden" id="hidden-phone" class="hidden-phone" name="shipping_phone" value="">
+                                            <input type="hidden" id="hidden-address" class="hidden-address" name="shipping_address" value="">
+                                            <input type="hidden" id="hidden-pincode" class="hidden-pincode" name="delivery_pincode" value="">
+                                            <input type="hidden" id="hidden-coupon" class="hidden-coupon" name="coupon_code" value="">
+                                            <input type="hidden" name="order_note" value="No notes">
+                                            <input type="hidden" name="payment_method" value="COD">
+
+                                            <button type="submit" class="btn-orange-action" style="background: #ff611d;">
+                                                PLACE ORDER
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="view-giftcard" class="tab-panel-view">
+                                    <div class="inner-box">
+                                        <div class="form-group-flip">
+                                            <label>Voucher Number</label>
+                                            <input type="text" placeholder="Enter voucher number">
+                                        </div>
+                                        <div class="form-group-flip">
+                                            <label>Voucher PIN</label>
+                                            <input type="password" placeholder="Enter voucher PIN">
+                                        </div>
+                                        <button type="button" class="btn-blue-action">Add Gift Card</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-price-panel">
+                    <div class="price-section-row">
+                        <span class="text-secondary">Price (Items in Cart)</span>
+                        <span>Rs. {{ total_price|default:"230.00" }}</span>
+                    </div>
+                    <div class="price-section-row">
+                        <span class="text-secondary">Delivery Charges</span>
+                        <span class="green-discount">Calculated after PIN</span>
+                    </div>
+                    <div class="price-section-row">
+                        <span class="text-secondary">Coupon Discount</span>
+                        <span class="green-discount">Applied on order</span>
+                    </div>
+                    <div class="price-section-row bold-total">
+                        <span>Total Amount</span>
+                        <span style="color: #2874f0;">Rs. {{ total_price|default:"230.00" }}</span>
+                    </div>
+                    <div class="instant-discount-banner">
+                        <div class="banner-txt">Fresh batch guarantee<span class="d-block text-muted" style="font-size:11px;">Packed with farm-to-kitchen quality tracking</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchPaymentTab(event, tabId) {
+            const allTabs = document.querySelectorAll('.method-tab-item');
+            allTabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.color = '#212121';
+            });
+
+            const allPanels = document.querySelectorAll('.tab-panel-view');
+            allPanels.forEach(panel => panel.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            event.currentTarget.style.color = '#2874f0';
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const pincodeInput = document.getElementById('pincode');
+            const postOfficeSelect = document.getElementById('post_office_select');
+            const districtInput = document.getElementById('district');
+            const stateInput = document.getElementById('state');
+            const countryInput = document.getElementById('country');
+            const pinStatus = document.getElementById('pin-status');
+            const continueBtn = document.getElementById('continue-btn');
+            const addressSection = document.getElementById('address-section');
+            const paymentSection = document.getElementById('payment-section');
+            const savedAddressSelect = document.getElementById('saved-address-select');
+
+            function setPinStatus(message, type) {
+                pinStatus.textContent = message || '';
+                pinStatus.className = 'pin-status ' + (type || '');
+            }
+
+            function clearPinFields() {
+                postOfficeSelect.innerHTML = '<option value="">Select area after PIN</option>';
+                districtInput.value = '';
+                stateInput.value = '';
+                countryInput.value = 'India';
+            }
+
+            pincodeInput.addEventListener('input', function() {
+                const pincode = this.value.replace(/\D/g, '').slice(0, 6);
+                this.value = pincode;
+
+                if (pincode.length < 6) {
+                    clearPinFields();
+                    setPinStatus('', '');
+                    return;
+                }
+
+                setPinStatus('PIN code details loading...', '');
+                clearPinFields();
+
+                fetch('https://api.postalpincode.in/pincode/' + pincode)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data || !data[0] || data[0].Status !== 'Success' || !data[0].PostOffice) {
+                            setPinStatus('Invalid PIN code. Please check again.', 'error');
+                            return;
+                        }
+
+                        const postOffices = data[0].PostOffice;
+                        postOfficeSelect.innerHTML = '';
+
+                        postOffices.forEach(function(postOffice, index) {
+                            const option = document.createElement('option');
+                            option.value = postOffice.Name;
+                            option.textContent = postOffice.Name + ' - ' + postOffice.Block;
+                            option.dataset.district = postOffice.District || '';
+                            option.dataset.state = postOffice.State || '';
+                            option.dataset.country = postOffice.Country || 'India';
+                            postOfficeSelect.appendChild(option);
+
+                            if (index === 0) {
+                                districtInput.value = postOffice.District || '';
+                                stateInput.value = postOffice.State || '';
+                                countryInput.value = postOffice.Country || 'India';
+                            }
+                        });
+
+                        setPinStatus('Address area found. Select your nearest post office.', 'ok');
+                    })
+                    .catch(() => {
+                        setPinStatus('PIN code details fetch nahi ho paayi. Internet check karein.', 'error');
+                    });
+            });
+
+            postOfficeSelect.addEventListener('change', function() {
+                const selected = this.options[this.selectedIndex];
+                districtInput.value = selected.dataset.district || '';
+                stateInput.value = selected.dataset.state || '';
+                countryInput.value = selected.dataset.country || 'India';
+            });
+
+            function applySavedAddress(option) {
+                if (!option || !option.value) {
+                    return;
+                }
+                document.getElementById('address-name').value = option.dataset.name || '';
+                document.getElementById('address-phone').value = option.dataset.phone || '';
+                document.getElementById('pincode').value = option.dataset.pincode || '';
+                document.getElementById('address-text').value = option.dataset.line || '';
+                districtInput.value = option.dataset.city || '';
+                stateInput.value = option.dataset.state || '';
+                countryInput.value = option.dataset.country || 'India';
+                postOfficeSelect.innerHTML = '';
+                const areaOption = document.createElement('option');
+                areaOption.value = option.dataset.area || '';
+                areaOption.textContent = option.dataset.area || 'Saved area';
+                postOfficeSelect.appendChild(areaOption);
+                setPinStatus('Saved address selected.', 'ok');
+            }
+
+            if (savedAddressSelect) {
+                savedAddressSelect.addEventListener('change', function() {
+                    applySavedAddress(this.options[this.selectedIndex]);
+                });
+                applySavedAddress(savedAddressSelect.options[savedAddressSelect.selectedIndex]);
+            }
+
+            continueBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const nameVal = document.getElementById('address-name').value.trim();
+                const phoneVal = document.getElementById('address-phone').value.trim();
+                const houseAddress = document.getElementById('address-text').value.trim();
+                const couponCode = document.getElementById('coupon-code').value.trim();
+                const pincode = pincodeInput.value.trim();
+                const postOffice = postOfficeSelect.value.trim();
+                const district = districtInput.value.trim();
+                const state = stateInput.value.trim();
+                const country = countryInput.value.trim();
+
+                if (!nameVal || !phoneVal || !houseAddress || !pincode || !postOffice || !district || !state) {
+                    alert('Please full name, phone, PIN code aur address complete bharo.');
+                    return;
+                }
+
+                if (phoneVal.length !== 10 || !/^\d+$/.test(phoneVal)) {
+                    alert('Please valid 10-digit phone number enter karo.');
+                    return;
+                }
+
+                const fullAddress = houseAddress + ', ' + postOffice + ', ' + district + ', ' + state + ', ' + country + ' - ' + pincode;
+
+                document.querySelectorAll('.hidden-name').forEach(input => input.value = nameVal);
+                document.querySelectorAll('.hidden-phone').forEach(input => input.value = phoneVal);
+                document.querySelectorAll('.hidden-address').forEach(input => input.value = fullAddress);
+                document.querySelectorAll('.hidden-pincode').forEach(input => input.value = pincode);
+                document.querySelectorAll('.hidden-coupon').forEach(input => input.value = couponCode);
+
+                addressSection.style.display = 'none';
+                paymentSection.style.display = 'block';
+
+                const codTab = Array.from(document.querySelectorAll('.method-tab-item')).find(tab => tab.textContent.includes('Cash on Delivery'));
+                if (codTab) {
+                    codTab.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

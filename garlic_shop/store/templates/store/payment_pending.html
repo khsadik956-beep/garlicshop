@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Pending | GarlicShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="mx-auto card border-0 shadow-sm p-4 p-lg-5" style="max-width: 760px;">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center" style="width:54px;height:54px;">
+                    <i class="fas fa-credit-card fs-4"></i>
+                </div>
+                <div>
+                    <h1 class="h3 fw-bold mb-1">Payment Pending</h1>
+                    <p class="text-muted mb-0">Order #GS-00{{ order.id }} create ho gaya hai.</p>
+                </div>
+            </div>
+
+            <div class="alert {% if gateway_enabled %}alert-success{% else %}alert-warning{% endif %}">
+                {% if gateway_enabled %}
+                    Razorpay gateway configured hai. Live checkout script yahan connect kiya ja sakta hai.
+                {% else %}
+                    Razorpay keys abhi configure nahi hain. `.env` me `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`
+                    aur `PAYMENT_GATEWAY_ENABLED=True` set karne ke baad live gateway activate hoga.
+                {% endif %}
+            </div>
+
+            <div class="border rounded p-3 mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Total Amount</span>
+                    <strong>Rs. {{ order.total_amount }}</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Payment Method</span>
+                    <strong>{{ order.payment_method }}</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Gateway Order ID</span>
+                    <strong>{{ order.gateway_order_id|default:"Pending" }}</strong>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <form method="post" action="{% url 'payment_success' order.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-warning fw-bold">Mark Payment Successful</button>
+                </form>
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-success fw-bold">Track Order</a>
+                <a href="{% url 'invoice_pdf' order.id %}" class="btn btn-outline-success fw-bold">Invoice PDF</a>
+                <a href="{% url 'home' %}" class="btn btn-light fw-bold">Back Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

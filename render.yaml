@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: garlicshop
+    env: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn garlic_shop.wsgi:application --chdir garlic_shop
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: garlicshop-db
+          property: connectionString
+      - key: DATABASE_SSL_REQUIRE
+        value: "True"
+      - key: PAYMENT_GATEWAY_ENABLED
+        value: "False"
+      - key: WHATSAPP_PHONE_NUMBER
+        value: "917440977161"
+      - key: AUTO_SEED_CATALOG
+        value: "True"
+
+databases:
+  - name: garlicshop-db
+    plan: free

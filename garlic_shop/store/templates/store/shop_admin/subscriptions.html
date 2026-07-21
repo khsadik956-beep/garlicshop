@@ -1,0 +1,47 @@
+{% extends 'store/shop_admin/base.html' %}
+{% block title %}Subscriptions{% endblock %}
+{% block content %}
+<h1 class="page-title">Subscriptions</h1>
+<div class="row g-3">
+    <div class="col-lg-4">
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Add Plan</h5>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary w-100 fw-bold">Save Plan</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="panel mb-3">
+            <h5 class="fw-bold mb-3">Plans</h5>
+            <table class="table align-middle">
+                <thead><tr><th>Name</th><th>Price</th><th>Frequency</th><th>Active</th></tr></thead>
+                <tbody>
+                    {% for plan in plans %}
+                    <tr><td>{{ plan.name }}</td><td>Rs. {{ plan.price }}</td><td>{{ plan.delivery_frequency }}</td><td>{{ plan.is_active|yesno:"Yes,No" }}</td></tr>
+                    {% empty %}<tr><td colspan="4" class="text-muted">No plans yet.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel">
+            <h5 class="fw-bold mb-3">Requests</h5>
+            <table class="table align-middle">
+                <thead><tr><th>Name</th><th>Phone</th><th>Plan</th><th>Address</th><th>Date</th></tr></thead>
+                <tbody>
+                    {% for request_item in requests %}
+                    <tr>
+                        <td>{{ request_item.name }}</td>
+                        <td>{{ request_item.phone }}</td>
+                        <td>{{ request_item.plan.name }}</td>
+                        <td>{{ request_item.address }}</td>
+                        <td>{{ request_item.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}<tr><td colspan="5" class="text-muted">No subscription requests yet.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+.env
+.venv/
+venv/
+env/
+
+garlic_shop/staticfiles/
+garlic_shop/media/
+
+.DS_Store
+Thumbs.db

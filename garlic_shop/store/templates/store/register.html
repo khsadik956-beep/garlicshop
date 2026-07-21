@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Garlic Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%); min-height: 100vh; display: flex; align-items: center; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .btn-success { background-color: #4a5d4e; border: none; }
+        .btn-success:hover { background-color: #3b4b3e; }
+        /* Django default forms ko sundar banane ke liye CSS */
+        ul { padding-left: 20px; font-size: 0.85rem; color: #6c757d; list-style-type: square; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box; }
+        input:focus { border-color: #4a5d4e; box-shadow: 0 0 0 0.2rem rgba(74,93,78,0.25); outline: none; }
+        label { font-weight: 600; color: #495057; font-size: 0.9rem; }
+        .helptext { font-size: 0.8rem; color: #6c757d; display: block; margin-top: -10px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-dark">🧄 Garlic Shop</h2>
+                    <p class="text-muted">Join us for fresh & organic garlic products</p>
+                </div>
+                <div class="card p-4 p-sm-5 bg-white">
+                    <h4 class="fw-bold mb-4 text-center text-secondary">Create Account</h4>
+                    
+                   <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        <!-- Django form inputs automatic handle ho jayenge -->
+                        {{ form.as_p }}
+                        
+                        <button type="submit" class="btn btn-success w-100 fw-bold py-2.5 rounded-3 mt-2">Register Now 🚀</button>
+                    </form>
+                    
+                    <hr class="text-muted my-4">
+                    <p class="text-center mb-0 small">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none fw-bold text-success">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
