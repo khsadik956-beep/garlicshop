@@ -176,6 +176,8 @@ def home(request):
         "Farm Dairy", "Farm Supplies", "Farm Seeds",
     ]
     natural_categories = [
+        "Natural Farm Produce", "Natural Grains", "Natural Pulses",
+        "Natural Oilseeds", "Natural Greens", "Natural Farm Seeds",
         "Natural Flours", "Natural Oils", "Natural Sweeteners", "Dry Fruits",
         "Super Seeds", "Natural Snacks", "Natural Staples", "Herbal Products",
         "Natural Masala", "Natural Salts", "Natural Pickles", "Natural Papad",
