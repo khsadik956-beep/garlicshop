@@ -62,6 +62,85 @@
 
 
 
+<!-- ================= FARMER PORTAL ================= -->
+
+<section id="farmer-portal" class="farmer-portal">
+    <div class="container">
+        <div class="portal-head">
+            <div>
+                <span class="portal-kicker">GarlicShop Farmer Service Portal</span>
+                <h2>Farmers, buyers aur customers ke liye ek simple digital help center</h2>
+                <p>PMFBY-style quick services, lekin GarlicShop ke kaam ke hisab se: product buying, bulk inquiry, order tracking, support aur farm advisory.</p>
+            </div>
+            <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="portal-help-btn">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp Help
+            </a>
+        </div>
+
+        <div class="portal-grid">
+            <a href="#natural-products" class="portal-card">
+                <i class="fas fa-seedling"></i>
+                <strong>Natural Farm Products</strong>
+                <span>Onion, makka, soyabean, wheat, pulses aur fresh produce dekhein.</span>
+            </a>
+            <a href="{% url 'garlic_guide' %}" class="portal-card">
+                <i class="fas fa-clipboard-list"></i>
+                <strong>Product Guide</strong>
+                <span>Cooking, farming, bulk ya powder ke hisab se best product find karein.</span>
+            </a>
+            <a href="{% url 'bulk_inquiry' %}" class="portal-card">
+                <i class="fas fa-warehouse"></i>
+                <strong>Bulk Inquiry</strong>
+                <span>Shop, hotel, reseller ya mandi supply ke liye request bhejein.</span>
+            </a>
+            <a href="{% url 'subscription_plans' %}" class="portal-card">
+                <i class="fas fa-calendar-check"></i>
+                <strong>Monthly Supply</strong>
+                <span>Garlic aur farm products ki regular delivery plan karein.</span>
+            </a>
+            <a href="{% url 'my_orders' %}" class="portal-card">
+                <i class="fas fa-truck-fast"></i>
+                <strong>Order Tracking</strong>
+                <span>Order status, courier tracking aur invoice PDF check karein.</span>
+            </a>
+            <a href="{% url 'account_profile' %}" class="portal-card">
+                <i class="fas fa-user-shield"></i>
+                <strong>Customer Profile</strong>
+                <span>Name, phone aur saved delivery addresses manage karein.</span>
+            </a>
+        </div>
+
+        <div class="portal-action-row">
+            <div class="portal-status-panel">
+                <div class="portal-panel-title">
+                    <i class="fas fa-magnifying-glass-location"></i>
+                    Quick Status Check
+                </div>
+                <p>Order tracking ke liye apne account me login karke My Orders open karein. Bulk request ke liye WhatsApp par product name aur quantity bhej sakte hain.</p>
+                <div class="portal-actions">
+                    <a href="{% url 'my_orders' %}" class="btn btn-success">Track Order</a>
+                    <a href="{% url 'bulk_inquiry' %}" class="btn btn-outline-success">Send Inquiry</a>
+                </div>
+            </div>
+
+            <div class="portal-advisory-panel">
+                <div class="portal-panel-title">
+                    <i class="fas fa-bullhorn"></i>
+                    Farm Advisory
+                </div>
+                <ul>
+                    <li>Fresh produce ko shaded, dry aur ventilated jagah par store karein.</li>
+                    <li>Bulk order se pehle current price aur available stock confirm karein.</li>
+                    <li>Seed products ke liye sowing season aur local soil condition check karein.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 
 
 <!-- ================= GARLIC SLIDER ================= -->
