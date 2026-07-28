@@ -170,6 +170,15 @@ def queue_customer_notification(order, message, channel="system"):
 @never_cache
 def home(request):
     products = Product.objects.filter(is_available=True)
+    farm_categories = [
+        "Farm Grains", "Millets", "Pulses", "Oil Seeds", "Spices",
+        "Fresh Vegetables", "Fresh Herbs", "Farm Sweeteners",
+        "Farm Dairy", "Farm Supplies", "Farm Seeds",
+    ]
+    farm_products = Product.objects.filter(
+        is_available=True,
+        category__in=farm_categories,
+    ).order_by("-id")[:12]
     categories = (
         Product.objects.filter(is_available=True)
         .exclude(category__isnull=True)
@@ -228,6 +237,7 @@ def home(request):
         'max_price': max_price,
         'sort': sort,
         'wishlist_product_ids': wishlist_product_ids,
+        'farm_products': farm_products,
     })
 
 
