@@ -343,6 +343,70 @@ Fresh farm garlic bulbs.
 
 </section>
 
+<!-- ================= NATURAL PRODUCTS ================= -->
+
+<section id="natural-products">
+<div class="container">
+
+<h2 class="section-title">Natural Products</h2>
+<p class="section-sub">Atta, oils, honey, dry fruits, seeds, herbal items aur healthy staples</p>
+
+<div class="row g-4">
+
+{% for product in natural_products %}
+
+<div class="col-lg-3 col-md-6">
+<div class="premium-card">
+<div class="product-image">
+<a href="{% url 'product_detail' product.id %}" class="product-image-link" aria-label="View {{ product.name }} details">
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+<img src="{% static 'images/no-image.png' %}" alt="No Image">
+{% endif %}
+</a>
+<span class="sale-badge">NATURAL</span>
+<a href="{% url 'product_detail' product.id %}" class="quick-view">
+  <i class="fas fa-eye"></i>
+</a>
+</div>
+
+<div class="card-body">
+<h5>
+  <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+    {{ product.name }}
+  </a>
+</h5>
+<p>{{ product.description|truncatechars:70 }}</p>
+<div class="rating">
+★★★★★
+<span>4.8</span>
+</div>
+<div class="price-row">
+<h4>₹{{ product.price }}</h4>
+<span class="old-price">₹{{ product.price|add:"80" }}</span>
+<span class="discount">Pure</span>
+</div>
+<div class="d-grid gap-2">
+<a href="{% url 'add_to_cart' product.id %}" class="btn-cart">
+<i class="fas fa-shopping-cart me-2"></i>
+Add To Cart
+</a>
+</div>
+</div>
+</div>
+</div>
+
+{% empty %}
+<div class="col-12 text-center">
+<p>Natural products abhi add nahi hue.</p>
+</div>
+{% endfor %}
+
+</div>
+</div>
+</section>
+
 <!-- ================= FARM ESSENTIALS ================= -->
 
 <section id="farm-essentials">

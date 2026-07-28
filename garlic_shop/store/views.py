@@ -175,9 +175,19 @@ def home(request):
         "Fresh Vegetables", "Fresh Herbs", "Farm Sweeteners",
         "Farm Dairy", "Farm Supplies", "Farm Seeds",
     ]
+    natural_categories = [
+        "Natural Flours", "Natural Oils", "Natural Sweeteners", "Dry Fruits",
+        "Super Seeds", "Natural Snacks", "Natural Staples", "Herbal Products",
+        "Natural Masala", "Natural Salts", "Natural Pickles", "Natural Papad",
+        "Natural Combos",
+    ]
     farm_products = Product.objects.filter(
         is_available=True,
         category__in=farm_categories,
+    ).order_by("-id")[:12]
+    natural_products = Product.objects.filter(
+        is_available=True,
+        category__in=natural_categories,
     ).order_by("-id")[:12]
     categories = (
         Product.objects.filter(is_available=True)
@@ -238,6 +248,7 @@ def home(request):
         'sort': sort,
         'wishlist_product_ids': wishlist_product_ids,
         'farm_products': farm_products,
+        'natural_products': natural_products,
     })
 
 
