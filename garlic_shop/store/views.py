@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q, Sum
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.views.decorators.cache import never_cache
 from decimal import Decimal
 
 from .models import (
@@ -166,6 +167,7 @@ def queue_customer_notification(order, message, channel="system"):
     return notification
 
 
+@never_cache
 def home(request):
     products = Product.objects.filter(is_available=True)
     categories = (
