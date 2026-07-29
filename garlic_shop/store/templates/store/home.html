@@ -4,6 +4,11 @@
 {% block content %}
 
 <style>
+    #farmer-portal,
+    #natural-products,
+    #farm-essentials{
+        display:none !important;
+    }
     #farmer-portal.farmer-portal{
         background:#eef6ed;
         padding:64px 0;
@@ -269,13 +274,13 @@
             <div class="col-lg-6">
                 <div class="hero-eyebrow">
                     <i class="fas fa-leaf"></i>
-                    Farm selected products
+                    Farm fresh garlic
                 </div>
                 <h1>
-                    Fresh Garlic & <span>Farm Essentials</span>
+                    Fresh Garlic & <span>Premium Garlic Products</span>
                 </h1>
                 <p>
-                    Garlic products, grains, pulses, spices, seeds aur farm essentials -
+                    Fresh garlic, garlic powder, peeled garlic, garlic pickle aur garlic packs -
                     quality checked, clean packed, aur fast local delivery ke saath.
                 </p>
                 <div class="hero-actions">
@@ -284,8 +289,8 @@
                 </div>
                 <div class="hero-trust">
                     <div>
-                        <strong>90+</strong>
-                        <span>Products</span>
+                        <strong>Garlic</strong>
+                        <span>Only</span>
                     </div>
                     <div>
                         <strong>Fresh</strong>
@@ -322,6 +327,7 @@
 
 <!-- ================= FARMER PORTAL ================= -->
 
+{% comment %}
 <section id="farmer-portal" class="farmer-portal">
     <div class="container">
         <div class="portal-head">
@@ -530,6 +536,7 @@
         </div>
     </div>
 </section>
+{% endcomment %}
 
 
 
@@ -555,7 +562,6 @@
                 <button type="button" data-bs-target="#garlicSlider" data-bs-slide-to="3" aria-label="Garlic Pickle"></button>
                 <button type="button" data-bs-target="#garlicSlider" data-bs-slide-to="4" aria-label="Bulk Garlic"></button>
                 <button type="button" data-bs-target="#garlicSlider" data-bs-slide-to="5" aria-label="Seed Garlic"></button>
-                <button type="button" data-bs-target="#garlicSlider" data-bs-slide-to="6" aria-label="Farm Essentials"></button>
             </div>
 
             <div class="carousel-inner">
@@ -631,17 +637,6 @@
                     </div>
                 </div>
 
-                <div class="carousel-item">
-                    <div class="garlic-slide">
-                        <div class="garlic-slide-copy">
-                            <span>New arrivals</span>
-                            <h3>Farm Grains, Pulses & Spices</h3>
-                            <p>Daily kitchen aur farming needs ke liye quality checked products.</p>
-                            <a href="#products" class="btn btn-success">Shop Farm Essentials</a>
-                        </div>
-                        <img src="{% static 'images/offer-garlic.png' %}" alt="Farm essentials">
-                    </div>
-                </div>
             </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#garlicSlider" data-bs-slide="prev">
@@ -670,7 +665,7 @@ Shop By Category
 
 <p class="section-sub">
 
-Fresh Garlic, Spices, Grains & Farm Essentials
+Fresh Garlic, Garlic Powder, Pickle & Peeled Garlic
 
 </p>
 
@@ -777,32 +772,32 @@ Fresh farm garlic bulbs.
 <div class="col-lg-3 col-md-6">
 <div class="category-card">
 <img src="{% static 'images/offer-garlic.png' %}" alt="Farm grains">
-<h4>Farm Grains</h4>
-<p>Wheat, rice and millet packs.</p>
+<h4>Garlic Combo Packs</h4>
+<p>Family packs and mixed garlic bundles.</p>
 </div>
 </div>
 
 <div class="col-lg-3 col-md-6">
 <div class="category-card">
 <img src="{% static 'images/powder.png' %}" alt="Pulses">
-<h4>Pulses & Dal</h4>
-<p>Tur dal, chana dal, rajma and more.</p>
+<h4>Garlic Paste</h4>
+<p>Ready cooking garlic paste packs.</p>
 </div>
 </div>
 
 <div class="col-lg-3 col-md-6">
 <div class="category-card">
 <img src="{% static 'images/pickle.png' %}" alt="Farm spices">
-<h4>Farm Spices</h4>
-<p>Turmeric, chilli, cumin and coriander.</p>
+<h4>Seed Garlic</h4>
+<p>Selected garlic bulbs for growing.</p>
 </div>
 </div>
 
 <div class="col-lg-3 col-md-6">
 <div class="category-card">
 <img src="{% static 'images/whole-garlic.png' %}" alt="Farm seeds">
-<h4>Farm Seeds</h4>
-<p>Kitchen garden and organic farm supplies.</p>
+<h4>Bulk Garlic</h4>
+<p>Wholesale garlic supply for shops.</p>
 </div>
 </div>
 
@@ -816,6 +811,7 @@ Fresh farm garlic bulbs.
 
 <!-- ================= NATURAL PRODUCTS ================= -->
 
+{% comment %}
 <section id="natural-products">
 <div class="container">
 
@@ -941,6 +937,7 @@ Add To Cart
 </div>
 </div>
 </section>
+{% endcomment %}
 <!-- ================= PRODUCTS ================= -->
 
 <section id="products">
@@ -948,18 +945,18 @@ Add To Cart
 <div class="container">
 
 <h2 class="section-title">
-Best Selling Garlic & Farm Products
+Best Selling Garlic Products
 </h2>
 
 <p class="section-sub">
-Fresh, Pure & Premium GarlicShop Farm Collection
+Fresh, Pure & Premium GarlicShop Collection
 </p>
 
 <form method="get" action="#products" class="product-filter-panel">
     <div class="row g-2 align-items-end">
         <div class="col-lg-3 col-md-6">
             <label>Search</label>
-            <input type="search" name="q" value="{{ query }}" class="form-control" placeholder="Garlic, dal, rice, spices">
+            <input type="search" name="q" value="{{ query }}" class="form-control" placeholder="Garlic, powder, pickle">
         </div>
         <div class="col-lg-2 col-md-6">
             <label>Category</label>
@@ -1283,7 +1280,7 @@ Bring Premium Garlic to Your Kitchen
 <p>
 
 Discover handpicked garlic products, grains, pulses, spices,
-farm seeds and organic essentials for daily kitchen needs.
+garlic packs and premium garlic essentials for daily kitchen needs.
 
 </p>
 
@@ -1703,10 +1700,10 @@ Garlic<span>Shop</span>
 
 <p>
 
-Premium Garlic and Farm Products directly from farms to your kitchen.
+Premium Garlic Products directly from farms to your kitchen.
 
-Fresh Garlic, Garlic Powder, Pulses, Grains, Farm Spices,
-Seed Packs and many more premium products.
+Fresh Garlic, Garlic Powder, Peeled Garlic, Garlic Pickle,
+Seed Garlic and premium garlic combo packs.
 
 </p>
 
@@ -1783,10 +1780,10 @@ Categories
 <li>Garlic Pickle</li>
 
 <li>Garlic Paste</li>
-<li>Farm Grains</li>
-<li>Pulses & Dal</li>
-<li>Farm Spices</li>
-<li>Farm Seeds</li>
+<li>Garlic Combo Packs</li>
+<li>Seed Garlic</li>
+<li>Bulk Garlic</li>
+<li>Garlic Oil</li>
 
 </ul>
 
