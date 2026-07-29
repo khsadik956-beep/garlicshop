@@ -713,8 +713,50 @@ def order_success(request):
 
 @login_required
 def my_orders_view(request):
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'store/my_orders.html', {'orders': orders})
+    all_orders = Order.objects.filter(user=request.user).prefetch_related("items__product").order_by('-created_at')
+    query = request.GET.get("q", "").strip()
+    status = request.GET.get("status", "").strip()
+
+    orders = all_orders
+    if query:
+        orders = orders.filter(
+            Q(id__icontains=query) |
+            Q(invoice_number__icontains=query) |
+            Q(items__product__name__icontains=query)
+        ).distinct()
+    if status:
+        orders = orders.filter(status=status)
+
+    active_statuses = ["placed", "processing", "packed", "shipped"]
+    total_orders = all_orders.count()
+    active_orders = all_orders.filter(status__in=active_statuses).count()
+    delivered_orders = all_orders.filter(status="delivered").count()
+    total_spent = all_orders.aggregate(total=Sum("total_amount"))["total"] or Decimal("0.00")
+
+    progress_map = {
+        "placed": 25,
+        "processing": 45,
+        "packed": 65,
+        "shipped": 82,
+        "delivered": 100,
+        "cancelled": 100,
+        "return_requested": 100,
+    }
+    for order in orders:
+        order.ui_progress = progress_map.get(order.status, 20)
+        order.ui_status_label = dict(Order.STATUS_CHOICES).get(order.status, order.status.title())
+        order.ui_item_count = sum(item.quantity for item in order.items.all())
+
+    return render(request, 'store/my_orders.html', {
+        'orders': orders,
+        'query': query,
+        'selected_status': status,
+        'status_choices': Order.STATUS_CHOICES,
+        'total_orders': total_orders,
+        'active_orders': active_orders,
+        'delivered_orders': delivered_orders,
+        'total_spent': total_spent,
+    })
 
 
 @login_required

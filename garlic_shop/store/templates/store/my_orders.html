@@ -1,181 +1,192 @@
+{% extends 'store/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders | Garlic Shop</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260711-header">
-
-    <style>
-        body {
-            background-color: #f1f3f6;
-            font-family: Arial, sans-serif;
-        }
-
-        .order-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .order-item-img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            background: #f8f9fa;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            padding: 5px;
-        }
-    </style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-md navbar-dark sticky-top mb-4">
+{% block content %}
+<section class="orders-page">
     <div class="container">
-        <a class="navbar-brand brand-logo" href="{% url 'home' %}">
-            <img src="{% static 'images/garlicshop-mark-v2.svg' %}" alt="GarlicShop" class="brand-logo-mark">
-            <span class="brand-wordmark">
-                <span class="brand-main">Garlic</span><span class="brand-accent">Shop</span>
-            </span>
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarMenu">
-            <form class="nav-search d-flex my-3 my-lg-0" method="GET" action="{% url 'home' %}">
-                <input class="form-control search-input" type="search" placeholder="Search products" name="q">
-                <button class="btn btn-gold ms-2"><i class="fas fa-search"></i></button>
-            </form>
-
-            <ul class="navbar-nav nav-menu ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                <li class="nav-item nav-optional"><a class="nav-link" href="{% url 'home' %}#categories">Categories</a></li>
-                <li class="nav-item nav-optional"><a class="nav-link" href="{% url 'home' %}#products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'garlic_guide' %}">Guide</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'bulk_inquiry' %}">Bulk</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'subscription_plans' %}">Subscriptions</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'account_profile' %}">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'my_orders' %}">Orders</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'wishlist' %}">Wishlist</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                <li class="nav-item ms-lg-2">
-                    <a href="{% url 'cart_detail' %}" class="btn btn-gold nav-cart-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Cart</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container my-4" style="max-width: 1000px;">
-
-    <h2 class="fw-bold mb-4">My Orders</h2>
-
-    {% for order in orders %}
-    <div class="order-card p-4 mb-4">
-
-        <div class="row g-3 align-items-center border-bottom pb-3 mb-3">
-            <div class="col-md-3">
-                <small class="text-muted d-block">Order ID</small>
-                <strong>#GS-00{{ order.id }}</strong>
+        <div class="orders-hero">
+            <div>
+                <span class="orders-kicker">GarlicShop Account</span>
+                <h1>My Orders</h1>
+                <p>Track garlic orders, download invoice, manage return/cancel request aur support ek hi jagah.</p>
             </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">Placed On</small>
-                <strong>{{ order.created_at|date:"d M Y" }}</strong>
-            </div>
-
-            <div class="col-md-3">
-                <small class="text-muted d-block">Total Amount</small>
-                <strong class="text-success">Rs. {{ order.total_amount }}</strong>
-            </div>
-
-            <div class="col-md-3 text-md-end">
-                {% if order.status == "cancelled" %}
-                    <span class="badge bg-danger p-2">Cancelled</span>
-                {% elif order.status == "return_requested" %}
-                    <span class="badge bg-warning text-dark p-2">Return Requested</span>
-                {% else %}
-                    <span class="badge bg-success p-2">Ordered Successfully</span>
-                {% endif %}
-            </div>
+            <a href="{% url 'home' %}#products" class="btn btn-gold">
+                <i class="fas fa-bag-shopping me-2"></i>Shop Garlic
+            </a>
         </div>
 
-        <div class="mb-3">
-            <h6 class="fw-bold mb-1">Delivery Address</h6>
-            <p class="mb-1">{{ order.shipping_name }}</p>
-            <p class="mb-1 text-muted">{{ order.shipping_address }}</p>
-            <p class="mb-0"><strong>Phone:</strong> {{ order.shipping_phone }}</p>
-        </div>
-
-        <div class="border-top pt-3">
-            <h6 class="fw-bold mb-3">Items</h6>
-
-            {% for item in order.items.all %}
-            <div class="d-flex align-items-center gap-3 mb-3">
-                {% if item.product.image %}
-                    <img src="{{ item.product.image.url }}" class="order-item-img" alt="{{ item.product.name }}">
-                {% else %}
-                    <div class="order-item-img d-flex align-items-center justify-content-center">
-                        <i class="fas fa-shopping-bag text-muted"></i>
-                    </div>
-                {% endif %}
-
-                <div class="flex-grow-1">
-                    <div class="fw-bold">{{ item.product.name }}</div>
-                    <small class="text-muted">Quantity: {{ item.quantity }}</small>
-                    <div class="fw-bold text-success">Rs. {{ item.price }}</div>
+        <div class="orders-metrics">
+            <div class="orders-metric">
+                <i class="fas fa-receipt"></i>
+                <div>
+                    <span>Total Orders</span>
+                    <strong>{{ total_orders }}</strong>
                 </div>
             </div>
-            {% empty %}
-            <p class="text-muted mb-0">Is order ke items database me save nahi hue.</p>
-            {% endfor %}
+            <div class="orders-metric">
+                <i class="fas fa-truck-fast"></i>
+                <div>
+                    <span>Active Orders</span>
+                    <strong>{{ active_orders }}</strong>
+                </div>
+            </div>
+            <div class="orders-metric">
+                <i class="fas fa-circle-check"></i>
+                <div>
+                    <span>Delivered</span>
+                    <strong>{{ delivered_orders }}</strong>
+                </div>
+            </div>
+            <div class="orders-metric">
+                <i class="fas fa-wallet"></i>
+                <div>
+                    <span>Total Spent</span>
+                    <strong>Rs. {{ total_spent }}</strong>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 mt-3">
-            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary btn-sm">
-                Track Order
-            </a>
+        <form class="orders-filter" method="get">
+            <div>
+                <label>Search Order</label>
+                <input type="search" name="q" value="{{ query }}" placeholder="Order ID, invoice, garlic product">
+            </div>
+            <div>
+                <label>Status</label>
+                <select name="status">
+                    <option value="">All orders</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-success">
+                <i class="fas fa-filter me-2"></i>Apply
+            </button>
+            <a href="{% url 'my_orders' %}" class="btn btn-outline-secondary">Clear</a>
+        </form>
 
-            {% if order.status != "cancelled" and order.status != "return_requested" %}
-            <form method="POST" action="{% url 'cancel_order' order.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-danger btn-sm">
-                    Cancel Order
-                </button>
-            </form>
+        <div class="orders-layout">
+            <div class="orders-list">
+                {% for order in orders %}
+                <article class="order-pro-card">
+                    <div class="order-pro-head">
+                        <div>
+                            <span>Order ID</span>
+                            <strong>#GS-00{{ order.id }}</strong>
+                        </div>
+                        <div>
+                            <span>Placed On</span>
+                            <strong>{{ order.created_at|date:"d M Y" }}</strong>
+                        </div>
+                        <div>
+                            <span>Payment</span>
+                            <strong>{{ order.payment_method }} / {{ order.get_payment_status_display }}</strong>
+                        </div>
+                        <div class="text-md-end">
+                            <span class="order-status status-{{ order.status }}">{{ order.ui_status_label }}</span>
+                        </div>
+                    </div>
 
-            <form method="POST" action="{% url 'return_order' order.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-warning btn-sm">
-                    Return Order
-                </button>
-            </form>
-            {% endif %}
+                    <div class="order-progress">
+                        <div class="order-progress-line">
+                            <span style="width: {{ order.ui_progress }}%;"></span>
+                        </div>
+                        <div class="order-progress-labels">
+                            <small>Placed</small>
+                            <small>Packed</small>
+                            <small>Shipped</small>
+                            <small>Delivered</small>
+                        </div>
+                    </div>
+
+                    <div class="order-pro-body">
+                        <div class="order-products">
+                            {% for item in order.items.all %}
+                            <a href="{% url 'product_detail' item.product.id %}" class="order-product-row">
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                <span class="order-product-empty"><i class="fas fa-shopping-bag"></i></span>
+                                {% endif %}
+                                <div>
+                                    <strong>{{ item.product.name }}</strong>
+                                    <small>Qty: {{ item.quantity }} | Rs. {{ item.price }}</small>
+                                </div>
+                            </a>
+                            {% empty %}
+                            <p class="text-muted mb-0">Is order ke items database me save nahi hue.</p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="order-summary-panel">
+                            <div>
+                                <span>Total Amount</span>
+                                <strong>Rs. {{ order.total_amount }}</strong>
+                            </div>
+                            <div>
+                                <span>Items</span>
+                                <strong>{{ order.ui_item_count }}</strong>
+                            </div>
+                            <div>
+                                <span>Delivery To</span>
+                                <strong>{{ order.shipping_name|default:"Customer" }}</strong>
+                                <small>{{ order.shipping_address|truncatechars:62 }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-pro-actions">
+                        <a href="{% url 'order_detail' order.id %}" class="btn btn-success btn-sm">
+                            <i class="fas fa-location-dot me-2"></i>Track Order
+                        </a>
+                        <a href="{% url 'invoice_pdf' order.id %}" class="btn btn-outline-dark btn-sm">
+                            <i class="fas fa-file-pdf me-2"></i>Invoice PDF
+                        </a>
+                        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-outline-success btn-sm">
+                            <i class="fab fa-whatsapp me-2"></i>Need Help
+                        </a>
+
+                        {% if order.status != "cancelled" and order.status != "return_requested" %}
+                        <form method="POST" action="{% url 'cancel_order' order.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
+                        </form>
+                        <form method="POST" action="{% url 'return_order' order.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-warning btn-sm">Return</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </article>
+                {% empty %}
+                <div class="orders-empty">
+                    <i class="fas fa-box-open"></i>
+                    <h3>No Orders Yet</h3>
+                    <p>Aapne abhi tak koi order place nahi kiya hai. Fresh GarlicShop products explore karein.</p>
+                    <a href="{% url 'home' %}#products" class="btn btn-gold">Start Shopping</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <aside class="orders-side">
+                <div class="orders-side-card">
+                    <h5><i class="fas fa-shield-halved"></i> Buyer Protection</h5>
+                    <p>Quality checked garlic packing, invoice PDF aur order tracking har order ke saath.</p>
+                </div>
+                <div class="orders-side-card">
+                    <h5><i class="fas fa-headset"></i> Quick Help</h5>
+                    <p>Order ID share karke WhatsApp par support le sakte hain.</p>
+                    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-success w-100">
+                        WhatsApp Support
+                    </a>
+                </div>
+                <div class="orders-side-card">
+                    <h5><i class="fas fa-lightbulb"></i> Garlic Tip</h5>
+                    <p>Fresh garlic ko dry, shaded aur ventilated jagah par store karein.</p>
+                </div>
+            </aside>
         </div>
-
     </div>
-    {% empty %}
-    <div class="card border-0 shadow-sm p-5 text-center">
-        <i class="fas fa-box-open text-muted mb-3" style="font-size: 60px;"></i>
-        <h4 class="fw-bold">No Orders Yet</h4>
-        <p class="text-muted">Aapne abhi tak koi order place nahi kiya hai.</p>
-        <a href="{% url 'home' %}#products" class="btn btn-primary">Start Shopping</a>
-    </div>
-    {% endfor %}
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</section>
+{% endblock %}
