@@ -761,7 +761,23 @@ def my_orders_view(request):
 
 @login_required
 def order_detail_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__product", "tracking_steps"),
+        id=order_id,
+        user=request.user,
+    )
+    progress_map = {
+        "placed": 25,
+        "processing": 45,
+        "packed": 65,
+        "shipped": 82,
+        "delivered": 100,
+        "cancelled": 100,
+        "return_requested": 100,
+    }
+    order.ui_progress = progress_map.get(order.status, 20)
+    order.ui_status_label = dict(Order.STATUS_CHOICES).get(order.status, order.status.title())
+    order.ui_item_count = sum(item.quantity for item in order.items.all())
 
     return render(request, 'store/order_detail.html', {
         'order': order,

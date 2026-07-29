@@ -1,280 +1,219 @@
+{% extends 'store/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Order | Garlic Shop</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260711-header">
-
-    <style>
-        body { background:#f1f3f6; font-family:Arial, sans-serif; color:#212121; }
-
-        .page-wrap { max-width:1180px; margin:22px auto; padding:0 14px; }
-        .card-box { background:#fff; border:1px solid #ddd; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
-        .section-title { font-size:16px; font-weight:700; padding-bottom:12px; border-bottom:1px solid #eee; margin-bottom:16px; }
-        .muted-label { color:#878787; font-size:12px; display:block; margin-bottom:3px; }
-        .order-id { color:#2874f0; font-weight:700; }
-
-        .status-badge { padding:8px 12px; border-radius:3px; font-weight:700; font-size:13px; }
-        .badge-success { background:#e8f5e9; color:#16823a; }
-        .badge-danger { background:#ffebee; color:#d32f2f; }
-        .badge-warning { background:#fff8e1; color:#b26a00; }
-
-        .item-img { width:92px; height:92px; object-fit:contain; border:1px solid #eee; border-radius:4px; background:#fafafa; padding:6px; }
-        .timeline { position:relative; padding-left:30px; }
-        .timeline:before { content:""; position:absolute; left:8px; top:6px; bottom:10px; width:3px; background:#d7e3ff; }
-        .step { position:relative; margin-bottom:24px; }
-        .step:before { content:""; position:absolute; left:-27px; top:3px; width:15px; height:15px; border-radius:50%; background:#2874f0; border:3px solid #fff; box-shadow:0 0 0 1px #2874f0; }
-        .step.done:before { background:#26a541; box-shadow:0 0 0 1px #26a541; }
-        .step.cancel:before { background:#d32f2f; box-shadow:0 0 0 1px #d32f2f; }
-
-        .price-row { display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px; }
-        .price-total { border-top:1px dashed #ccc; padding-top:14px; margin-top:14px; font-size:18px; font-weight:700; }
-        .help-box { background:#f7fbff; border:1px solid #dbeafe; border-radius:4px; padding:14px; font-size:13px; color:#345; }
-
-        @media(max-width:768px) {
-            .item-img { width:74px; height:74px; }
-            .summary-row > div { margin-bottom:12px; }
-        }
-    </style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+{% block content %}
+<section class="track-page">
     <div class="container">
-        <a class="navbar-brand brand-logo" href="{% url 'home' %}">
-            <img src="{% static 'images/garlicshop-mark-v2.svg' %}" alt="GarlicShop" class="brand-logo-mark">
-            <span class="brand-wordmark">
-                <span class="brand-main">Garlic</span><span class="brand-accent">Shop</span>
-            </span>
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarMenu">
-            <form class="nav-search d-flex my-3 my-lg-0" method="GET" action="{% url 'home' %}">
-                <input class="form-control search-input" type="search" placeholder="Search products" name="q">
-                <button class="btn btn-gold ms-2"><i class="fas fa-search"></i></button>
-            </form>
-
-            <ul class="navbar-nav nav-menu ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                <li class="nav-item nav-optional"><a class="nav-link" href="{% url 'home' %}#products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'garlic_guide' %}">Guide</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'bulk_inquiry' %}">Bulk</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'subscription_plans' %}">Subscriptions</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'account_profile' %}">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'my_orders' %}">My Orders</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'invoice_pdf' order.id %}">Invoice PDF</a></li>
-                <li class="nav-item ms-lg-2">
-                    <a href="{% url 'cart_detail' %}" class="btn btn-gold nav-cart-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Cart</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="page-wrap">
-
-    <div class="card-box p-4 mb-3">
-        <div class="row summary-row align-items-center">
-            <div class="col-md-3">
-                <span class="muted-label">Order ID</span>
-                <div class="order-id">#GS-00{{ order.id }}</div>
+        <div class="track-hero">
+            <div>
+                <span class="track-kicker">GarlicShop Tracking</span>
+                <h1>Order #GS-00{{ order.id }}</h1>
+                <p>Garlic order ka status, invoice, delivery updates aur support ek professional dashboard me.</p>
             </div>
+            <div class="track-hero-actions">
+                <a href="{% url 'invoice_pdf' order.id %}" class="btn btn-outline-light">
+                    <i class="fas fa-file-pdf me-2"></i>Invoice PDF
+                </a>
+                <a href="{% url 'my_orders' %}" class="btn btn-gold">
+                    <i class="fas fa-arrow-left me-2"></i>My Orders
+                </a>
+            </div>
+        </div>
 
-            <div class="col-md-3">
-                <span class="muted-label">Placed On</span>
+        <div class="track-summary">
+            <div>
+                <span>Placed On</span>
                 <strong>{{ order.created_at|date:"d M Y" }}</strong>
             </div>
-
-            <div class="col-md-3">
-                <span class="muted-label">Payment</span>
+            <div>
+                <span>Payment</span>
                 <strong>{{ order.payment_method }} / {{ order.get_payment_status_display }}</strong>
             </div>
-
-            <div class="col-md-3 text-md-end">
-                {% if order.status == "cancelled" %}
-                    <span class="status-badge badge-danger">Cancelled</span>
-                {% elif order.status == "return_requested" %}
-                    <span class="status-badge badge-warning">Return Requested</span>
-                {% else %}
-                    <span class="status-badge badge-success">Ordered Successfully</span>
-                {% endif %}
+            <div>
+                <span>Total</span>
+                <strong>Rs. {{ order.total_amount }}</strong>
+            </div>
+            <div>
+                <span>Status</span>
+                <strong class="track-status status-{{ order.status }}">{{ order.ui_status_label }}</strong>
             </div>
         </div>
-    </div>
 
-    <div class="row g-3">
-
-        <div class="col-lg-8">
-
-            <div class="card-box p-4 mb-3">
-                <h5 class="section-title">
-                    <i class="fas fa-location-dot text-primary me-2"></i>Delivery Address
-                </h5>
-
-                <h6 class="fw-bold mb-1">{{ order.shipping_name }}</h6>
-                <p class="mb-2 text-secondary">{{ order.shipping_address }}</p>
-                <p class="mb-0 fw-bold">
-                    <i class="fas fa-phone text-muted me-2"></i>{{ order.shipping_phone }}
-                </p>
+        <div class="track-progress-card">
+            <div class="track-progress-head">
+                <div>
+                    <h2>Delivery Progress</h2>
+                    <p>Fresh garlic packing se delivery tak ka live overview.</p>
+                </div>
+                {% if order.expected_delivery_date %}
+                <span><i class="fas fa-calendar-day"></i> Expected: {{ order.expected_delivery_date|date:"d M Y" }}</span>
+                {% else %}
+                <span><i class="fas fa-clock"></i> Delivery date will update soon</span>
+                {% endif %}
             </div>
+            <div class="track-progress-line">
+                <span style="width: {{ order.ui_progress }}%;"></span>
+            </div>
+            <div class="track-progress-labels">
+                <small>Confirmed</small>
+                <small>Packed</small>
+                <small>Shipped</small>
+                <small>Delivered</small>
+            </div>
+        </div>
 
-            {% if order.courier_name or order.tracking_number or order.expected_delivery_date %}
-            <div class="card-box p-4 mb-3">
-                <h5 class="section-title">
-                    <i class="fas fa-route text-primary me-2"></i>Delivery Tracking
-                </h5>
-                <div class="row g-3">
-                    <div class="col-sm-4">
-                        <span class="muted-label">Courier Partner</span>
-                        <strong>{{ order.courier_name|default:"Preparing" }}</strong>
+        <div class="track-layout">
+            <main class="track-main">
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-location-dot"></i>
+                        <h3>Delivery Address</h3>
                     </div>
-                    <div class="col-sm-4">
-                        <span class="muted-label">Tracking Number</span>
-                        <strong>{{ order.tracking_number|default:"Pending" }}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <span class="muted-label">Expected Delivery</span>
-                        <strong>{{ order.expected_delivery_date|date:"d M Y"|default:"Soon" }}</strong>
+                    <div class="track-address">
+                        <strong>{{ order.shipping_name }}</strong>
+                        <p>{{ order.shipping_address }}</p>
+                        <span><i class="fas fa-phone"></i> {{ order.shipping_phone }}</span>
                     </div>
                 </div>
-            </div>
-            {% endif %}
 
-            <div class="card-box p-4 mb-3">
-                <h5 class="section-title">
-                    <i class="fas fa-box-open text-primary me-2"></i>Items in this Order
-                </h5>
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-box-open"></i>
+                        <h3>Items in this Order</h3>
+                    </div>
+                    <div class="track-items">
+                        {% for item in order.items.all %}
+                        <a href="{% url 'product_detail' item.product.id %}" class="track-item-row">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                            <span class="track-item-empty"><i class="fas fa-bag-shopping"></i></span>
+                            {% endif %}
+                            <div>
+                                <strong>{{ item.product.name }}</strong>
+                                <small>Qty: {{ item.quantity }} | Rs. {{ item.price }}</small>
+                                <em>View product details</em>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">Is order ke items database me save nahi hue.</p>
+                        {% endfor %}
+                    </div>
+                </div>
 
-                {% for item in order.items.all %}
-                <div class="d-flex gap-3 py-3 {% if not forloop.last %}border-bottom{% endif %}">
-                    {% if item.product.image %}
-                        <img src="{{ item.product.image.url }}" class="item-img" alt="{{ item.product.name }}">
-                    {% else %}
-                        <div class="item-img d-flex align-items-center justify-content-center">
-                            <i class="fas fa-bag-shopping text-muted fs-3"></i>
-                        </div>
-                    {% endif %}
-
-                    <div class="flex-grow-1">
-                        <h6 class="fw-bold mb-1">{{ item.product.name }}</h6>
-                        <div class="text-muted small mb-1">Quantity: {{ item.quantity }}</div>
-                        <div class="fw-bold">Rs. {{ item.price }}</div>
-
-                        <a href="{% url 'product_detail' item.product.id %}" class="btn btn-sm btn-outline-primary mt-2">
-                            View Product
+                <div class="track-card track-help-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-headset"></i>
+                        <h3>Need Help?</h3>
+                    </div>
+                    <p>Order se related issue ke liye support team ko order ID <strong>#GS-00{{ order.id }}</strong> share karein.</p>
+                    <div class="track-help-actions">
+                        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-success">
+                            <i class="fab fa-whatsapp me-2"></i>WhatsApp Support
+                        </a>
+                        <a href="{% url 'bulk_inquiry' %}" class="btn btn-outline-success">
+                            <i class="fas fa-message me-2"></i>Send Inquiry
                         </a>
                     </div>
                 </div>
-                {% empty %}
-                <p class="text-muted mb-0">Is order ke items database me save nahi hue.</p>
-                {% endfor %}
-            </div>
+            </main>
 
-            <div class="card-box p-4">
-                <h5 class="section-title">
-                    <i class="fas fa-headset text-primary me-2"></i>Need Help?
-                </h5>
-                <div class="help-box">
-                    Order se related issue ke liye support team se contact karein. Aap order ID
-                    <strong>#GS-00{{ order.id }}</strong> share kar sakte hain.
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-lg-4">
-
-            <div class="card-box p-4 mb-3">
-                <h5 class="section-title">
-                    <i class="fas fa-truck-fast text-primary me-2"></i>Order Status
-                </h5>
-
-                <div class="timeline">
-                    {% for step in order.tracking_steps.all %}
-                    <div class="step {% if step.completed %}done{% endif %} {% if step.step == 'cancelled' %}cancel{% endif %}">
-                        <h6 class="fw-bold mb-1 {% if step.step == 'cancelled' %}text-danger{% elif step.completed %}text-success{% endif %}">
-                            {{ step.title }}
-                        </h6>
-                        <p class="text-muted small mb-0">{{ step.note }}</p>
-                        {% if step.completed_at %}
-                        <p class="text-muted small mb-0">{{ step.completed_at|date:"d M Y H:i" }}</p>
-                        {% endif %}
+            <aside class="track-side">
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-truck-fast"></i>
+                        <h3>Order Timeline</h3>
                     </div>
-                    {% empty %}
-                    <div class="step done">
-                        <h6 class="fw-bold mb-1">Order Confirmed</h6>
-                        <p class="text-muted small mb-0">Your order has been placed successfully.</p>
+                    <div class="track-timeline">
+                        {% for step in order.tracking_steps.all %}
+                        <div class="track-step {% if step.completed %}done{% endif %} {% if step.step == 'cancelled' %}cancel{% endif %}">
+                            <span></span>
+                            <div>
+                                <strong>{{ step.title }}</strong>
+                                <p>{{ step.note }}</p>
+                                {% if step.completed_at %}
+                                <small>{{ step.completed_at|date:"d M Y H:i" }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="track-step done">
+                            <span></span>
+                            <div>
+                                <strong>Order Confirmed</strong>
+                                <p>Your order has been placed successfully.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="card-box p-4 mb-3">
-                <h5 class="section-title">Price Details</h5>
-
-                <div class="price-row">
-                    <span>Item Total</span>
-                    <span>Rs. {{ order.display_subtotal }}</span>
                 </div>
 
-                <div class="price-row">
-                    <span>Delivery</span>
-                    <span>Rs. {{ order.delivery_charge }}</span>
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-route"></i>
+                        <h3>Courier Details</h3>
+                    </div>
+                    <div class="courier-grid">
+                        <div>
+                            <span>Courier</span>
+                            <strong>{{ order.courier_name|default:"Preparing" }}</strong>
+                        </div>
+                        <div>
+                            <span>Tracking No.</span>
+                            <strong>{{ order.tracking_number|default:"Pending" }}</strong>
+                        </div>
+                        <div>
+                            <span>Expected</span>
+                            <strong>{{ order.expected_delivery_date|date:"d M Y"|default:"Soon" }}</strong>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="price-row">
-                    <span>Discount{% if order.coupon_code %} ({{ order.coupon_code }}){% endif %}</span>
-                    <span class="text-success fw-bold">- Rs. {{ order.discount_amount }}</span>
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-receipt"></i>
+                        <h3>Price Details</h3>
+                    </div>
+                    <div class="track-price-row">
+                        <span>Item Total</span>
+                        <strong>Rs. {{ order.display_subtotal }}</strong>
+                    </div>
+                    <div class="track-price-row">
+                        <span>Delivery</span>
+                        <strong>Rs. {{ order.delivery_charge }}</strong>
+                    </div>
+                    <div class="track-price-row">
+                        <span>Discount{% if order.coupon_code %} ({{ order.coupon_code }}){% endif %}</span>
+                        <strong class="text-success">- Rs. {{ order.discount_amount }}</strong>
+                    </div>
+                    <div class="track-price-row">
+                        <span>Items</span>
+                        <strong>{{ order.ui_item_count }}</strong>
+                    </div>
+                    <div class="track-price-row total">
+                        <span>Total</span>
+                        <strong>Rs. {{ order.total_amount }}</strong>
+                    </div>
                 </div>
 
-                <div class="price-row">
-                    <span>Payment Mode</span>
-                    <span>{{ order.payment_method }} / {{ order.get_payment_status_display }}</span>
+                {% if order.status != "cancelled" and order.status != "return_requested" %}
+                <div class="track-card">
+                    <div class="track-card-title">
+                        <i class="fas fa-gear"></i>
+                        <h3>Order Actions</h3>
+                    </div>
+                    <form method="POST" action="{% url 'cancel_order' order.id %}" class="mb-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger w-100">Cancel Order</button>
+                    </form>
+                    <form method="POST" action="{% url 'return_order' order.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-warning w-100">Return Order</button>
+                    </form>
                 </div>
-
-                <div class="price-row price-total">
-                    <span>Total</span>
-                    <span class="text-success">Rs. {{ order.total_amount }}</span>
-                </div>
-            </div>
-
-            {% if order.status != "cancelled" and order.status != "return_requested" %}
-            <div class="card-box p-4">
-                <h5 class="section-title">Order Actions</h5>
-
-                <form method="POST" action="{% url 'cancel_order' order.id %}" class="mb-2">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger w-100">
-                        Cancel Order
-                    </button>
-                </form>
-
-                <form method="POST" action="{% url 'return_order' order.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-warning w-100">
-                        Return Order
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-
+                {% endif %}
+            </aside>
         </div>
-
     </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</section>
+{% endblock %}
