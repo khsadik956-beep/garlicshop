@@ -78,6 +78,41 @@
             </a>
         </div>
 
+        <div class="portal-notice-bar">
+            <div>
+                <i class="fas fa-circle-info"></i>
+                <strong>Latest Update:</strong>
+                Natural farm products, bulk supply request aur order tracking services active hain.
+            </div>
+            <a href="{% url 'bulk_inquiry' %}">Apply Bulk Request</a>
+        </div>
+
+        <div class="portal-console">
+            <div class="portal-console-main">
+                <span>GarlicShop Digital Console</span>
+                <h3>Farm produce buying, inquiry aur tracking ek hi jagah</h3>
+                <p>Farmer/customer account se saved address, order history, invoice, delivery tracking aur support manage karein.</p>
+                <div class="portal-console-actions">
+                    <a href="{% url 'register' %}" class="btn btn-success">Register Customer</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-success">Login</a>
+                </div>
+            </div>
+            <div class="portal-console-side">
+                <div>
+                    <strong>181</strong>
+                    <span>Farm products</span>
+                </div>
+                <div>
+                    <strong>COD</strong>
+                    <span>Available</span>
+                </div>
+                <div>
+                    <strong>PDF</strong>
+                    <span>Invoice ready</span>
+                </div>
+            </div>
+        </div>
+
         <div class="portal-grid">
             <a href="#natural-products" class="portal-card">
                 <i class="fas fa-seedling"></i>
@@ -111,6 +146,59 @@
             </a>
         </div>
 
+        <div class="portal-tool-grid">
+            <div class="portal-tool-panel">
+                <div class="portal-panel-title">
+                    <i class="fas fa-calculator"></i>
+                    Price Estimate
+                </div>
+                <form class="portal-mini-form" action="#products" method="get">
+                    <label>Product</label>
+                    <input type="search" name="q" placeholder="Onion, makka, soyabean">
+                    <label>Budget Range</label>
+                    <div class="portal-form-row">
+                        <input type="number" name="min_price" placeholder="Min">
+                        <input type="number" name="max_price" placeholder="Max">
+                    </div>
+                    <button class="btn btn-success w-100">Search Products</button>
+                </form>
+            </div>
+
+            <div class="portal-tool-panel">
+                <div class="portal-panel-title">
+                    <i class="fas fa-file-circle-check"></i>
+                    Customer Services
+                </div>
+                <div class="portal-link-list">
+                    <a href="{% url 'my_orders' %}"><i class="fas fa-truck"></i> Application / Order Status</a>
+                    <a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Saved Products / Wishlist</a>
+                    <a href="{% url 'policy_page' 'refund' %}"><i class="fas fa-rotate-left"></i> Return & Refund Policy</a>
+                    <a href="{% url 'policy_page' 'privacy' %}"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+
+            <div class="portal-tool-panel">
+                <div class="portal-panel-title">
+                    <i class="fas fa-mobile-screen-button"></i>
+                    Apps & Help
+                </div>
+                <div class="portal-app-list">
+                    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp Support
+                    </a>
+                    <a href="{% url 'garlic_guide' %}">
+                        <i class="fas fa-book-open"></i>
+                        Garlic Guide
+                    </a>
+                    <a href="{% url 'bulk_inquiry' %}">
+                        <i class="fas fa-headset"></i>
+                        Buyer Helpdesk
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="portal-action-row">
             <div class="portal-status-panel">
                 <div class="portal-panel-title">
@@ -134,6 +222,52 @@
                     <li>Bulk order se pehle current price aur available stock confirm karein.</li>
                     <li>Seed products ke liye sowing season aur local soil condition check karein.</li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="portal-document-row">
+            <div class="portal-doc-card">
+                <i class="fas fa-file-lines"></i>
+                <strong>Product Quality Guide</strong>
+                <span>Freshness, packing, storage aur shelf-life ke basic rules.</span>
+            </div>
+            <div class="portal-doc-card">
+                <i class="fas fa-list-check"></i>
+                <strong>Bulk Order Checklist</strong>
+                <span>Quantity, delivery city, business type aur preferred packing details.</span>
+            </div>
+            <div class="portal-doc-card">
+                <i class="fas fa-route"></i>
+                <strong>Delivery Workflow</strong>
+                <span>Order placed, quality checked, packed, shipped aur delivered.</span>
+            </div>
+            <div class="portal-doc-card">
+                <i class="fas fa-leaf"></i>
+                <strong>Farm Produce Advisory</strong>
+                <span>Seasonal produce, seed products aur storage guidance.</span>
+            </div>
+        </div>
+
+        <div class="portal-stepper">
+            <div class="portal-step active">
+                <span>1</span>
+                <strong>Select Product</strong>
+                <small>Natural farm item choose karein</small>
+            </div>
+            <div class="portal-step active">
+                <span>2</span>
+                <strong>Add Details</strong>
+                <small>Address, quantity, phone fill karein</small>
+            </div>
+            <div class="portal-step">
+                <span>3</span>
+                <strong>Quality Check</strong>
+                <small>Batch sorting aur packing</small>
+            </div>
+            <div class="portal-step">
+                <span>4</span>
+                <strong>Track Delivery</strong>
+                <small>Order page par live status</small>
             </div>
         </div>
     </div>
