@@ -276,10 +276,33 @@ def product_detail(request, product_id):
     if request.user.is_authenticated:
         is_wishlisted = WishlistItem.objects.filter(user=request.user, product=product).exists()
 
+    recently_viewed_ids = request.session.get("recently_viewed_products", [])
+    recent_products = Product.objects.filter(
+        id__in=recently_viewed_ids,
+        is_available=True,
+    ).exclude(id=product.id)[:4]
+    updated_recent = [product.id] + [item_id for item_id in recently_viewed_ids if item_id != product.id]
+    request.session["recently_viewed_products"] = updated_recent[:8]
+
+    related_products = (
+        Product.objects.filter(is_available=True, category=product.category)
+        .exclude(id=product.id)
+        .order_by("-id")[:4]
+    )
+    if not related_products:
+        related_products = (
+            Product.objects.filter(is_available=True)
+            .filter(Q(name__icontains="garlic") | Q(category__icontains="garlic"))
+            .exclude(id=product.id)
+            .order_by("-id")[:4]
+        )
+
     return render(request, 'store/product_detail.html', {
         'product': product,
         'reviews': reviews,
         'is_wishlisted': is_wishlisted,
+        'recent_products': recent_products,
+        'related_products': related_products,
     })
 
 

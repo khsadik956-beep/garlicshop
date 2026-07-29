@@ -36,6 +36,24 @@
       <p class="text-muted mb-2">{{ product.brand }}</p>
       <h2 class="text-success fw-bold">₹{{ product.price }}</h2>
 
+      <div class="detail-trust-row">
+        <div>
+          <i class="fas fa-leaf"></i>
+          <strong>{{ product.freshness_score }}%</strong>
+          <span>Freshness</span>
+        </div>
+        <div>
+          <i class="fas fa-box-open"></i>
+          <strong>{% if product.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}</strong>
+          <span>{{ product.stock_quantity }} packs left</span>
+        </div>
+        <div>
+          <i class="fas fa-rotate-left"></i>
+          <strong>Easy Return</strong>
+          <span>Policy support</span>
+        </div>
+      </div>
+
       <p class="mt-4">{{ product.description }}</p>
 
       <ul class="list-group list-group-flush my-4">
@@ -49,6 +67,19 @@
       <h5 class="fw-bold">Highlights</h5>
       <p style="white-space: pre-line;">{{ product.highlights }}</p>
       {% endif %}
+
+      <div class="delivery-promise">
+        <div class="service-title mb-2">
+          <i class="fas fa-truck-fast"></i>
+          Delivery & Support
+        </div>
+        <div class="delivery-promise-grid">
+          <span><i class="fas fa-clock"></i> Dispatch in 24-48 hours</span>
+          <span><i class="fas fa-file-invoice"></i> Invoice PDF available</span>
+          <span><i class="fab fa-whatsapp"></i> WhatsApp order help</span>
+          <span><i class="fas fa-shield-halved"></i> Quality checked packing</span>
+        </div>
+      </div>
 
       <div class="d-flex gap-2 mt-4">
         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg">
@@ -72,6 +103,53 @@
       </div>
     </div>
   </div>
+
+  {% if related_products %}
+  <section class="detail-shelf">
+    <div class="detail-shelf-head">
+      <h3>Similar Garlic Products</h3>
+      <a href="{% url 'home' %}#products">View all</a>
+    </div>
+    <div class="row g-3">
+      {% for item in related_products %}
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'product_detail' item.id %}" class="detail-mini-card">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.name }}">
+          {% else %}
+          <img src="{% static 'images/no-image.png' %}" alt="{{ item.name }}">
+          {% endif %}
+          <strong>{{ item.name }}</strong>
+          <span>Rs. {{ item.price }}</span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if recent_products %}
+  <section class="detail-shelf">
+    <div class="detail-shelf-head">
+      <h3>Recently Viewed</h3>
+    </div>
+    <div class="row g-3">
+      {% for item in recent_products %}
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'product_detail' item.id %}" class="detail-mini-card">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.name }}">
+          {% else %}
+          <img src="{% static 'images/no-image.png' %}" alt="{{ item.name }}">
+          {% endif %}
+          <strong>{{ item.name }}</strong>
+          <span>Rs. {{ item.price }}</span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
   <hr class="my-5">
 
@@ -138,6 +216,16 @@
     </div>
   </div>
 </section>
+
+<div class="sticky-buy-bar">
+  <div>
+    <strong>{{ product.name|truncatechars:32 }}</strong>
+    <span>Rs. {{ product.price }}</span>
+  </div>
+  <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">
+    <i class="fas fa-shopping-cart me-2"></i>Add
+  </a>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const mainImage = document.getElementById('product-main-image');
