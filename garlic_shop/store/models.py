@@ -187,6 +187,36 @@ class OrderItem(models.Model):
         return f"{self.quantity} x {self.product.name}"
 
 
+class ReturnRequest(models.Model):
+    REASON_CHOICES = [
+        ("quality_issue", "Quality issue"),
+        ("damaged_pack", "Damaged pack"),
+        ("wrong_item", "Wrong item"),
+        ("late_delivery", "Late delivery"),
+        ("changed_mind", "Changed mind"),
+        ("other", "Other"),
+    ]
+
+    REFUND_CHOICES = [
+        ("original", "Original payment method"),
+        ("wallet", "Store wallet"),
+        ("replacement", "Replacement product"),
+        ("bank", "Bank transfer"),
+    ]
+
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="return_request")
+    reason = models.CharField(max_length=40, choices=REASON_CHOICES)
+    pickup_address = models.TextField()
+    refund_mode = models.CharField(max_length=30, choices=REFUND_CHOICES, default="original")
+    photo = models.ImageField(upload_to="returns/", null=True, blank=True)
+    note = models.TextField(blank=True, default="")
+    status = models.CharField(max_length=30, default="requested")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Return request for order #{self.order_id}"
+
+
 class PaymentTransaction(models.Model):
     STATUS_CHOICES = [
         ("created", "Created"),

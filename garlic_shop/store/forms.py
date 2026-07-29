@@ -1,7 +1,7 @@
 from django import forms
 from .models import (
     Product, Order, FarmTrackingStep, NotificationLog,
-    CustomerProfile, CustomerAddress,
+    CustomerProfile, CustomerAddress, ReturnRequest,
     SubscriptionPlan, Coupon, DeliveryZone
 )
 
@@ -114,6 +114,24 @@ class TrackingStepForm(forms.ModelForm):
         fields = ["step", "title", "note", "completed"]
         widgets = {
             "note": forms.Textarea(attrs={"rows": 3}),
+        }
+
+
+class ReturnRequestForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name in ["reason", "refund_mode"]:
+                field.widget.attrs.update({"class": "form-select"})
+            else:
+                field.widget.attrs.update({"class": "form-control"})
+
+    class Meta:
+        model = ReturnRequest
+        fields = ["reason", "pickup_address", "refund_mode", "photo", "note"]
+        widgets = {
+            "pickup_address": forms.Textarea(attrs={"rows": 3}),
+            "note": forms.Textarea(attrs={"rows": 4}),
         }
 
 

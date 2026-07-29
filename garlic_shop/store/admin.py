@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Product, ProductImage, WishlistItem, BuyLaterItem,
     CustomerProfile, CustomerAddress, Order, OrderItem, Review,
-    PaymentTransaction, FarmTrackingStep, NotificationLog,
+    PaymentTransaction, FarmTrackingStep, NotificationLog, ReturnRequest,
     BulkInquiry, Coupon, DeliveryZone,
     SubscriptionPlan, SubscriptionRequest
 )
@@ -44,6 +44,12 @@ class NotificationLogInline(admin.TabularInline):
     extra = 0
 
 
+class ReturnRequestInline(admin.StackedInline):
+    model = ReturnRequest
+    extra = 0
+    max_num = 1
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
@@ -57,7 +63,7 @@ class OrderAdmin(admin.ModelAdmin):
         "shipping_address", "delivery_pincode", "courier_name",
         "tracking_number", "user__username"
     ]
-    inlines = [OrderItemInline, PaymentTransactionInline, FarmTrackingStepInline, NotificationLogInline]
+    inlines = [OrderItemInline, PaymentTransactionInline, FarmTrackingStepInline, ReturnRequestInline, NotificationLogInline]
 
 
 @admin.register(PaymentTransaction)
@@ -115,6 +121,13 @@ class NotificationLogAdmin(admin.ModelAdmin):
     list_display = ["order", "channel", "recipient", "status", "created_at"]
     list_filter = ["channel", "status", "created_at"]
     search_fields = ["recipient", "message", "order__invoice_number"]
+
+
+@admin.register(ReturnRequest)
+class ReturnRequestAdmin(admin.ModelAdmin):
+    list_display = ["order", "reason", "refund_mode", "status", "created_at"]
+    list_filter = ["reason", "refund_mode", "status", "created_at"]
+    search_fields = ["order__id", "order__invoice_number", "pickup_address", "note"]
 
 
 @admin.register(BulkInquiry)

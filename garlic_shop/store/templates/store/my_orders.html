@@ -152,10 +152,7 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
                         </form>
-                        <form method="POST" action="{% url 'return_order' order.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-warning btn-sm">Return</button>
-                        </form>
+                        <a href="{% url 'return_order' order.id %}" class="btn btn-outline-warning btn-sm">Return</a>
                         {% endif %}
                     </div>
                 </article>

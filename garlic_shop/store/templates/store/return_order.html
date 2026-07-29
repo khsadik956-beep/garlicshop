@@ -1,0 +1,90 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="return-page">
+    <div class="container">
+        <div class="return-hero">
+            <div>
+                <span class="return-kicker">Return Request</span>
+                <h1>Order #GS-00{{ order.id }}</h1>
+                <p>Reason, pickup address, photo proof aur refund preference submit karein.</p>
+            </div>
+            <a href="{% url 'order_detail' order.id %}" class="btn btn-gold">
+                <i class="fas fa-arrow-left me-2"></i>Back to Tracking
+            </a>
+        </div>
+
+        <div class="return-layout">
+            <main class="return-card">
+                <div class="return-card-title">
+                    <i class="fas fa-rotate-left"></i>
+                    <h2>Return Details</h2>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="return-form">
+                    {% csrf_token %}
+                    <div>
+                        <label>Reason</label>
+                        {{ form.reason }}
+                        {{ form.reason.errors }}
+                    </div>
+                    <div>
+                        <label>Pickup Address</label>
+                        {{ form.pickup_address }}
+                        {{ form.pickup_address.errors }}
+                    </div>
+                    <div>
+                        <label>Refund / Resolution</label>
+                        {{ form.refund_mode }}
+                        {{ form.refund_mode.errors }}
+                    </div>
+                    <div>
+                        <label>Photo Proof</label>
+                        {{ form.photo }}
+                        <small>Damaged/wrong item ho to clear photo upload karein.</small>
+                        {{ form.photo.errors }}
+                    </div>
+                    <div>
+                        <label>Extra Note</label>
+                        {{ form.note }}
+                        {{ form.note.errors }}
+                    </div>
+
+                    <button class="btn btn-success btn-lg w-100">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Return Request
+                    </button>
+                </form>
+            </main>
+
+            <aside class="return-side">
+                <div class="return-side-card">
+                    <h5><i class="fas fa-box-open"></i> Order Items</h5>
+                    {% for item in order.items.all %}
+                    <div class="return-item">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% else %}
+                        <span><i class="fas fa-bag-shopping"></i></span>
+                        {% endif %}
+                        <div>
+                            <strong>{{ item.product.name }}</strong>
+                            <small>Qty: {{ item.quantity }} | Rs. {{ item.price }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="return-side-card">
+                    <h5><i class="fas fa-circle-info"></i> Return Checklist</h5>
+                    <ul>
+                        <li>Product photo clear hona chahiye.</li>
+                        <li>Pickup address aur phone reachable rakhein.</li>
+                        <li>Team review ke baad refund/replacement update degi.</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

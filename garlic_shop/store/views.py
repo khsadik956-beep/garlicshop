@@ -24,7 +24,7 @@ from .forms import (
     ProductForm, CustomerProfileForm, CustomerAddressForm,
     OrderStatusForm, SubscriptionPlanForm,
     PaymentStatusForm, OrderLogisticsForm, TrackingStepForm, NotificationLogForm,
-    CouponForm, DeliveryZoneForm
+    CouponForm, DeliveryZoneForm, ReturnRequestForm
 )
 
 
@@ -843,8 +843,23 @@ def cancel_order(request, order_id):
 
 @login_required
 def return_order(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__product"),
+        id=order_id,
+        user=request.user,
+    )
+    if order.status in ["cancelled", "return_requested"]:
+        return redirect("order_detail", order_id=order_id)
+
     if request.method == "POST":
-        order = get_object_or_404(Order, id=order_id, user=request.user)
+        form = ReturnRequestForm(request.POST, request.FILES)
+        if not form.is_valid():
+            return render(request, "store/return_order.html", {"order": order, "form": form})
+
+        return_request = form.save(commit=False)
+        return_request.order = order
+        return_request.save()
+
         order.status = "return_requested"
         order.save()
 
@@ -852,12 +867,25 @@ def return_order(request, order_id):
             order=order,
             step="return_requested",
             title="Return Requested",
-            note="Customer requested a return for this order.",
+            note=(
+                f"Reason: {return_request.get_reason_display()}. "
+                f"Refund mode: {return_request.get_refund_mode_display()}. "
+                f"Pickup address: {return_request.pickup_address}"
+            ),
             completed=True,
             completed_at=timezone.now(),
         )
 
-    return redirect('order_detail', order_id=order_id)
+        queue_customer_notification(
+            order,
+            f"Return request receive ho gayi hai for order #GS-00{order.id}. Team review karke update degi.",
+        )
+
+        messages.success(request, "Return request submit ho gayi hai. Team jaldi review karegi.")
+        return redirect('order_detail', order_id=order_id)
+
+    form = ReturnRequestForm(initial={"pickup_address": order.shipping_address})
+    return render(request, "store/return_order.html", {"order": order, "form": form})
 
 
 @login_required
