@@ -324,6 +324,122 @@
 </section>
 
 
+<!-- ================= GARLIC SERVICE HUB ================= -->
+
+<section id="garlic-services" class="garlic-service-hub">
+    <div class="container">
+        <div class="service-hub-head">
+            <div>
+                <span class="service-kicker">GarlicShop Service Center</span>
+                <h2>Order, support aur garlic guidance ek hi jagah</h2>
+                <p>PMFBY portal se inspired quick services, lekin GarlicShop customers ke liye: product guide, order tracking, bulk inquiry, WhatsApp help aur garlic freshness tips.</p>
+            </div>
+            <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="service-help-btn">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp Help
+            </a>
+        </div>
+
+        <div class="service-alert">
+            <div>
+                <i class="fas fa-bullhorn"></i>
+                <strong>Latest Update:</strong>
+                Fresh garlic, peeled garlic, powder, pickle aur seed garlic orders active hain.
+            </div>
+            <a href="#products">View Garlic Products</a>
+        </div>
+
+        <div class="service-grid">
+            <a href="{% url 'garlic_guide' %}" class="service-card">
+                <i class="fas fa-clipboard-list"></i>
+                <strong>Garlic Product Guide</strong>
+                <span>Cooking, pickle, powder ya farming ke hisab se best garlic choose karein.</span>
+            </a>
+            <a href="{% url 'my_orders' %}" class="service-card">
+                <i class="fas fa-truck-fast"></i>
+                <strong>Order Status</strong>
+                <span>Placed, packed, shipped, delivered aur invoice PDF ek jagah check karein.</span>
+            </a>
+            <a href="{% url 'bulk_inquiry' %}" class="service-card">
+                <i class="fas fa-boxes-stacked"></i>
+                <strong>Bulk Garlic Request</strong>
+                <span>Shop, hotel, restaurant aur reseller ke liye wholesale inquiry bhejein.</span>
+            </a>
+            <a href="{% url 'subscription_plans' %}" class="service-card">
+                <i class="fas fa-calendar-check"></i>
+                <strong>Monthly Garlic Supply</strong>
+                <span>Regular garlic delivery plan karein aur repeat buying easy banayein.</span>
+            </a>
+        </div>
+
+        <div class="service-tools">
+            <div class="service-tool-card">
+                <div class="service-title">
+                    <i class="fas fa-calculator"></i>
+                    Quick Price Finder
+                </div>
+                <form action="#products" method="get" class="service-mini-form">
+                    <input type="search" name="q" placeholder="Garlic powder, pickle, peeled garlic">
+                    <div class="service-form-row">
+                        <input type="number" name="min_price" placeholder="Min price">
+                        <input type="number" name="max_price" placeholder="Max price">
+                    </div>
+                    <button class="btn btn-success w-100">Search Garlic</button>
+                </form>
+            </div>
+
+            <div class="service-tool-card">
+                <div class="service-title">
+                    <i class="fas fa-headset"></i>
+                    Customer Helpdesk
+                </div>
+                <div class="service-link-list">
+                    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a>
+                    <a href="{% url 'my_orders' %}"><i class="fas fa-receipt"></i> Track Order / Invoice</a>
+                    <a href="{% url 'policy_page' 'refund' %}"><i class="fas fa-rotate-left"></i> Return & Refund Policy</a>
+                    <a href="{% url 'policy_page' 'privacy' %}"><i class="fas fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+
+            <div class="service-tool-card">
+                <div class="service-title">
+                    <i class="fas fa-book-open"></i>
+                    Garlic Learning
+                </div>
+                <ul class="service-tips">
+                    <li>Fresh garlic ko dry, shaded aur ventilated jagah par store karein.</li>
+                    <li>Garlic powder ko airtight jar me rakhein, moisture se bachayein.</li>
+                    <li>Bulk order se pehle packing size aur delivery date confirm karein.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="service-process">
+            <div class="service-step active">
+                <span>1</span>
+                <strong>Select Garlic</strong>
+                <small>Product guide ya listing se choose karein</small>
+            </div>
+            <div class="service-step active">
+                <span>2</span>
+                <strong>Place Order</strong>
+                <small>Address, phone aur payment mode fill karein</small>
+            </div>
+            <div class="service-step">
+                <span>3</span>
+                <strong>Quality Check</strong>
+                <small>Fresh batch packing aur invoice ready</small>
+            </div>
+            <div class="service-step">
+                <span>4</span>
+                <strong>Track Delivery</strong>
+                <small>My Orders me live updates dekhein</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 <!-- ================= FARMER PORTAL ================= -->
 
