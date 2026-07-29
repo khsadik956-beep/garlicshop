@@ -239,10 +239,18 @@ def home(request):
         "name": "name",
         "stock": "-stock_quantity",
     }
-    products = products.order_by(sort_options.get(sort, "-id")).annotate(
+    products = list(products.order_by(sort_options.get(sort, "-id")).annotate(
         avg_rating=Avg("reviews__rating"),
         review_count=Count("reviews"),
-    )
+    ))
+    discount_cycle = [8, 10, 12, 15, 18, 20, 22, 25]
+    rating_cycle = [4.4, 4.5, 4.6, 4.7, 4.8, 4.9]
+    review_cycle = [11, 18, 24, 31, 42, 57, 73, 88]
+    for index, product in enumerate(products):
+        product.display_discount = discount_cycle[index % len(discount_cycle)]
+        product.display_old_price = (product.price * 100 / (100 - product.display_discount)).quantize(Decimal("1"))
+        product.display_rating = rating_cycle[index % len(rating_cycle)]
+        product.display_review_count = product.review_count or review_cycle[index % len(review_cycle)]
     wishlist_product_ids = []
     if request.user.is_authenticated:
         wishlist_product_ids = list(
