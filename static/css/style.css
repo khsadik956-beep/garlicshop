@@ -1187,7 +1187,7 @@ margin-top:12px;
     position:absolute;
     top:15px;
     left:15px;
-    background:#d62828;
+    background:#17683a;
     color:#fff;
     font-size:13px;
     font-weight:700;
@@ -1221,6 +1221,20 @@ margin-top:12px;
 .rating span{
     color:#444;
     margin-left:6px;
+    font-weight:600;
+}
+
+.rating-empty{
+    color:#7b847d;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.rating-empty span{
+    color:#7b847d;
+    margin-left:0;
     font-weight:600;
 }
 

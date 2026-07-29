@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Q, Sum
+from django.db.models import Avg, Count, Q, Sum
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
@@ -239,7 +239,10 @@ def home(request):
         "name": "name",
         "stock": "-stock_quantity",
     }
-    products = products.order_by(sort_options.get(sort, "-id"))
+    products = products.order_by(sort_options.get(sort, "-id")).annotate(
+        avg_rating=Avg("reviews__rating"),
+        review_count=Count("reviews"),
+    )
     wishlist_product_ids = []
     if request.user.is_authenticated:
         wishlist_product_ids = list(
