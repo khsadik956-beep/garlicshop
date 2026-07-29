@@ -3,6 +3,264 @@
 
 {% block content %}
 
+<style>
+    #farmer-portal.farmer-portal{
+        background:#eef6ed;
+        padding:64px 0;
+    }
+    #farmer-portal .portal-head{
+        display:flex;
+        align-items:flex-end;
+        justify-content:space-between;
+        gap:24px;
+        margin-bottom:28px;
+    }
+    #farmer-portal .portal-kicker{
+        display:inline-flex;
+        color:#17683a;
+        background:#fff;
+        border:1px solid #dce8d7;
+        border-radius:999px;
+        padding:8px 13px;
+        font-size:12px;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:.06em;
+        margin-bottom:14px;
+    }
+    #farmer-portal .portal-head h2{
+        color:#17221a;
+        font-size:38px;
+        line-height:1.15;
+        font-weight:800;
+        max-width:790px;
+        margin:0 0 10px;
+    }
+    #farmer-portal .portal-head p,
+    #farmer-portal .portal-card span,
+    #farmer-portal .portal-status-panel p,
+    #farmer-portal .portal-advisory-panel li{
+        color:#58665c;
+        line-height:1.65;
+    }
+    #farmer-portal .portal-help-btn{
+        min-width:178px;
+        min-height:50px;
+        border-radius:999px;
+        background:#25D366;
+        color:#fff;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:9px;
+        text-decoration:none;
+        font-weight:800;
+        box-shadow:0 14px 28px rgba(37,211,102,.25);
+    }
+    #farmer-portal .portal-notice-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:18px;
+        background:#fff8df;
+        border:1px solid #ead27a;
+        border-left:5px solid #d4af37;
+        border-radius:12px;
+        padding:14px 18px;
+        margin-bottom:18px;
+        color:#463812;
+    }
+    #farmer-portal .portal-console{
+        display:grid;
+        grid-template-columns:1.25fr .75fr;
+        gap:18px;
+        margin-bottom:18px;
+    }
+    #farmer-portal .portal-console-main,
+    #farmer-portal .portal-tool-panel,
+    #farmer-portal .portal-status-panel,
+    #farmer-portal .portal-advisory-panel,
+    #farmer-portal .portal-doc-card{
+        background:#fff;
+        border:1px solid #dce8d7;
+        border-radius:14px;
+        padding:22px;
+        box-shadow:0 12px 28px rgba(20,72,34,.08);
+    }
+    #farmer-portal .portal-console-main{
+        background:linear-gradient(120deg,#fff 0%,#f8fbf0 55%,#e7f5ea 100%);
+        padding:28px;
+    }
+    #farmer-portal .portal-console-main span{
+        color:#17683a;
+        font-size:12px;
+        font-weight:800;
+        text-transform:uppercase;
+        letter-spacing:.06em;
+    }
+    #farmer-portal .portal-console-main h3{
+        color:#17221a;
+        font-size:30px;
+        line-height:1.18;
+        font-weight:800;
+        margin:10px 0;
+    }
+    #farmer-portal .portal-console-actions,
+    #farmer-portal .portal-actions{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-top:16px;
+    }
+    #farmer-portal .portal-console-side{
+        display:grid;
+        gap:12px;
+    }
+    #farmer-portal .portal-console-side div{
+        background:#fff;
+        border:1px solid #dce8d7;
+        border-radius:14px;
+        padding:18px;
+        box-shadow:0 12px 28px rgba(20,72,34,.08);
+    }
+    #farmer-portal .portal-console-side strong{
+        display:block;
+        color:#17683a;
+        font-size:30px;
+        line-height:1;
+        font-weight:800;
+    }
+    #farmer-portal .portal-console-side span{
+        display:block;
+        color:#647166;
+        font-size:13px;
+        font-weight:700;
+        margin-top:6px;
+    }
+    #farmer-portal .portal-grid{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:14px;
+    }
+    #farmer-portal .portal-card{
+        min-height:178px;
+        background:#fff;
+        border:1px solid #dce8d7;
+        border-radius:14px;
+        padding:20px 16px;
+        text-decoration:none;
+        box-shadow:0 12px 28px rgba(20,72,34,.08);
+        transition:.25s ease;
+    }
+    #farmer-portal .portal-card:hover{
+        transform:translateY(-5px);
+        border-color:#17683a;
+    }
+    #farmer-portal .portal-card i{
+        width:46px;
+        height:46px;
+        border-radius:12px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background:#e8f5e9;
+        color:#17683a;
+        font-size:22px;
+        margin-bottom:14px;
+    }
+    #farmer-portal .portal-card strong{
+        display:block;
+        color:#17221a;
+        font-size:16px;
+        line-height:1.25;
+        margin-bottom:8px;
+    }
+    #farmer-portal .portal-tool-grid{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:18px;
+        margin-top:20px;
+    }
+    #farmer-portal .portal-panel-title{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        color:#17221a;
+        font-weight:800;
+        font-size:18px;
+        margin-bottom:10px;
+    }
+    #farmer-portal .portal-panel-title i{
+        color:#17683a;
+    }
+    #farmer-portal .portal-mini-form,
+    #farmer-portal .portal-link-list,
+    #farmer-portal .portal-app-list{
+        display:grid;
+        gap:10px;
+    }
+    #farmer-portal .portal-mini-form input,
+    #farmer-portal .portal-link-list a,
+    #farmer-portal .portal-app-list a{
+        min-height:42px;
+        border:1px solid #dce8d7;
+        border-radius:10px;
+        padding:10px 12px;
+    }
+    #farmer-portal .portal-link-list a,
+    #farmer-portal .portal-app-list a{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        background:#f7fbf4;
+        color:#243328;
+        text-decoration:none;
+        font-weight:700;
+    }
+    #farmer-portal .portal-form-row,
+    #farmer-portal .portal-action-row,
+    #farmer-portal .portal-document-row,
+    #farmer-portal .portal-stepper{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:18px;
+    }
+    #farmer-portal .portal-document-row,
+    #farmer-portal .portal-stepper{
+        grid-template-columns:repeat(4,1fr);
+        margin-top:20px;
+    }
+    #farmer-portal .portal-step{
+        background:#fff;
+        border:1px solid #dce8d7;
+        border-radius:14px;
+        padding:18px;
+    }
+    #farmer-portal .portal-step span{
+        width:34px;
+        height:34px;
+        border-radius:50%;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background:#e8f5e9;
+        color:#17683a;
+        font-weight:800;
+        margin-bottom:10px;
+    }
+    @media (max-width:991px){
+        #farmer-portal .portal-head,
+        #farmer-portal .portal-notice-bar{align-items:flex-start;flex-direction:column;}
+        #farmer-portal .portal-console,
+        #farmer-portal .portal-grid,
+        #farmer-portal .portal-tool-grid,
+        #farmer-portal .portal-action-row,
+        #farmer-portal .portal-document-row,
+        #farmer-portal .portal-stepper{grid-template-columns:1fr;}
+        #farmer-portal .portal-head h2{font-size:30px;}
+    }
+</style>
+
 <!-- ================= HERO ================= -->
 
 <section class="hero">
