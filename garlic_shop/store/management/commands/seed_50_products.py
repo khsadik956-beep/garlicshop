@@ -138,6 +138,9 @@ class Command(BaseCommand):
         return f"products/catalog/{output_path.name}"
 
     def handle(self, *args, **options):
+        catalog_skus = [product[0] for product in CATALOG]
+        Product.objects.exclude(sku__in=catalog_skus).update(is_available=False)
+
         for index, product in enumerate(CATALOG, start=1):
             sku, name, category, pack, form_factor, container, best_for, base_image, price = product
             image_path = self._make_image(product)
@@ -174,4 +177,6 @@ class Command(BaseCommand):
                 },
             )
 
-        self.stdout.write(self.style.SUCCESS(f"GarlicShop catalog ready: {len(CATALOG)} products."))
+        self.stdout.write(self.style.SUCCESS(
+            f"GarlicShop catalog ready: {len(CATALOG)} products. Extra products hidden."
+        ))

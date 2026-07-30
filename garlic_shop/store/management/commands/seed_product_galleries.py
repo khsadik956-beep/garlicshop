@@ -133,13 +133,11 @@ class Command(BaseCommand):
         return f"products/multiple/catalog/{output_path.name}"
 
     def handle(self, *args, **options):
+        ProductImage.objects.filter(product__is_available=False).delete()
         products = Product.objects.filter(is_available=True).order_by("id")
         created = 0
         for product in products:
-            ProductImage.objects.filter(
-                product=product,
-                image__startswith="products/multiple/catalog/",
-            ).delete()
+            ProductImage.objects.filter(product=product).delete()
             for variant in ("pack", "closeup", "lifestyle"):
                 image_path = self._make_gallery_image(product, variant)
                 ProductImage.objects.create(product=product, image=image_path)
