@@ -269,7 +269,7 @@
 <!-- ================= HERO ================= -->
 
 <section class="hero hero-banner-carousel">
-    <div id="heroBannerSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4200">
+    <div id="heroBannerSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2300">
         <div class="carousel-indicators hero-banner-dots">
             <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Fresh garlic banner"></button>
             <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="1" aria-label="Garlic powder banner"></button>
@@ -280,29 +280,104 @@
 
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <a href="#products" class="hero-banner-link">
-                    <img src="{% static 'images/hero-slide-fresh.jpg' %}" alt="Fresh GarlicShop premium garlic products banner">
-                </a>
+                <div class="hero-real-slide">
+                    <div class="container">
+                        <div class="hero-real-grid">
+                            <div class="hero-real-copy">
+                                <span class="hero-real-kicker">Farm fresh garlic</span>
+                                <h1>Fresh Garlic & <span>Premium Garlic Products</span></h1>
+                                <p>Clean packed farm selected garlic for daily cooking, restaurants and family kitchens.</p>
+                                <div class="hero-real-actions">
+                                    <a href="#products" class="hero-real-btn primary">Shop Fresh</a>
+                                    <a href="{% url 'garlic_guide' %}" class="hero-real-btn secondary">Find Best Garlic</a>
+                                </div>
+                            </div>
+                            <div class="hero-real-media">
+                                <img src="{% static 'images/whole-garlic.png' %}" alt="Premium whole garlic">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="carousel-item">
-                <a href="{% url 'garlic_guide' %}?purpose=powder" class="hero-banner-link">
-                    <img src="{% static 'images/hero-slide-powder.jpg' %}" alt="GarlicShop premium garlic powder banner">
-                </a>
+                <div class="hero-real-slide hero-real-slide-gold">
+                    <div class="container">
+                        <div class="hero-real-grid">
+                            <div class="hero-real-copy">
+                                <span class="hero-real-kicker">Pure seasoning</span>
+                                <h1>Premium <span>Garlic Powder</span></h1>
+                                <p>Smooth aromatic powder for snacks, marinades, pizza, curries and hotel kitchens.</p>
+                                <div class="hero-real-actions">
+                                    <a href="{% url 'garlic_guide' %}?purpose=powder" class="hero-real-btn primary">View Powder</a>
+                                    <a href="#products" class="hero-real-btn secondary">Shop Products</a>
+                                </div>
+                            </div>
+                            <div class="hero-real-media">
+                                <img src="{% static 'images/powder.png' %}" alt="Garlic powder jar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="carousel-item">
-                <a href="{% url 'garlic_guide' %}?purpose=pickle" class="hero-banner-link">
-                    <img src="{% static 'images/hero-slide-pickle.jpg' %}" alt="GarlicShop white garlic pickle banner">
-                </a>
+                <div class="hero-real-slide hero-real-slide-pickle">
+                    <div class="container">
+                        <div class="hero-real-grid">
+                            <div class="hero-real-copy">
+                                <span class="hero-real-kicker">Traditional taste</span>
+                                <h1>White Garlic <span>Pickle Jar</span></h1>
+                                <p>Bold garlic pickle packed in premium jars for paratha, meals and spicy cravings.</p>
+                                <div class="hero-real-actions">
+                                    <a href="{% url 'garlic_guide' %}?purpose=pickle" class="hero-real-btn primary">Shop Pickle</a>
+                                    <a href="#products" class="hero-real-btn secondary">See Packs</a>
+                                </div>
+                            </div>
+                            <div class="hero-real-media">
+                                <img src="{% static 'images/pickle.png' %}" alt="White garlic pickle jar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="carousel-item">
-                <a href="#products" class="hero-banner-link">
-                    <img src="{% static 'images/hero-slide-peeled.jpg' %}" alt="GarlicShop peeled garlic pack banner">
-                </a>
+                <div class="hero-real-slide">
+                    <div class="container">
+                        <div class="hero-real-grid">
+                            <div class="hero-real-copy">
+                                <span class="hero-real-kicker">Ready to cook</span>
+                                <h1>Fresh Peeled <span>Garlic Packs</span></h1>
+                                <p>Cleaned cloves for fast cooking, tiffin kitchens, hotels and daily tadka.</p>
+                                <div class="hero-real-actions">
+                                    <a href="#products" class="hero-real-btn primary">Buy Peeled</a>
+                                    <a href="{% url 'bulk_inquiry' %}" class="hero-real-btn secondary">Bulk Inquiry</a>
+                                </div>
+                            </div>
+                            <div class="hero-real-media">
+                                <img src="{% static 'images/peeled.png' %}" alt="Peeled garlic pack">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="carousel-item">
-                <a href="{% url 'bulk_inquiry' %}" class="hero-banner-link">
-                    <img src="{% static 'images/hero-slide-bulk.jpg' %}" alt="GarlicShop bulk garlic and seed garlic banner">
-                </a>
+                <div class="hero-real-slide hero-real-slide-bulk">
+                    <div class="container">
+                        <div class="hero-real-grid">
+                            <div class="hero-real-copy">
+                                <span class="hero-real-kicker">Wholesale supply</span>
+                                <h1>Bulk Garlic & <span>Seed Garlic</span></h1>
+                                <p>Selected garlic packs for resellers, hotels, monthly supply and kitchen gardens.</p>
+                                <div class="hero-real-actions">
+                                    <a href="{% url 'bulk_inquiry' %}" class="hero-real-btn primary">Send Inquiry</a>
+                                    <a href="#products" class="hero-real-btn secondary">View Products</a>
+                                </div>
+                            </div>
+                            <div class="hero-real-media">
+                                <img src="{% static 'images/offer-garlic.png' %}" alt="Bulk garlic offer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
