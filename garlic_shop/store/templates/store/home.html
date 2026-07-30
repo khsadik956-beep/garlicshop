@@ -268,58 +268,52 @@
 
 <!-- ================= HERO ================= -->
 
-<section class="hero">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <div class="hero-eyebrow">
-                    <i class="fas fa-leaf"></i>
-                    Farm fresh garlic
-                </div>
-                <h1>
-                    Fresh Garlic & <span>Premium Garlic Products</span>
-                </h1>
-                <p>
-                    Fresh garlic, garlic powder, peeled garlic, garlic pickle aur garlic packs -
-                    quality checked, clean packed, aur fast local delivery ke saath.
-                </p>
-                <div class="hero-actions">
-                    <a href="#products" class="btn btn-gold">Shop Products</a>
-                    <a href="{% url 'garlic_guide' %}" class="btn btn-hero-outline">Find Best Garlic</a>
-                </div>
-                <div class="hero-trust">
-                    <div>
-                        <strong>Garlic</strong>
-                        <span>Only</span>
-                    </div>
-                    <div>
-                        <strong>Fresh</strong>
-                        <span>Farm batch</span>
-                    </div>
-                    <div>
-                        <strong>COD</strong>
-                        <span>Available</span>
-                    </div>
-                </div>
-            </div>
+<section class="hero hero-banner-carousel">
+    <div id="heroBannerSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4200">
+        <div class="carousel-indicators hero-banner-dots">
+            <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Fresh garlic banner"></button>
+            <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="1" aria-label="Garlic powder banner"></button>
+            <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="2" aria-label="Garlic pickle banner"></button>
+            <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="3" aria-label="Peeled garlic banner"></button>
+            <button type="button" data-bs-target="#heroBannerSlider" data-bs-slide-to="4" aria-label="Bulk garlic banner"></button>
+        </div>
 
-            <div class="col-lg-6">
-                <div class="hero-showcase">
-                    <img src="{% static 'images/garlicshop-professional-banner.jpg' %}" class="hero-img hero-banner-img" alt="GarlicShop professional fresh garlic banner">
-                    <div class="hero-price-tag">
-                        <span>Starting at</span>
-                        <strong>Rs. 69</strong>
-                    </div>
-                    <div class="hero-quality-card">
-                        <i class="fas fa-shield-halved"></i>
-                        <div>
-                            <strong>Quality Checked</strong>
-                            <span>Freshness tracking on every order</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="#products" class="hero-banner-link">
+                    <img src="{% static 'images/hero-slide-fresh.jpg' %}" alt="Fresh GarlicShop premium garlic products banner">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="{% url 'garlic_guide' %}?purpose=powder" class="hero-banner-link">
+                    <img src="{% static 'images/hero-slide-powder.jpg' %}" alt="GarlicShop premium garlic powder banner">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="{% url 'garlic_guide' %}?purpose=pickle" class="hero-banner-link">
+                    <img src="{% static 'images/hero-slide-pickle.jpg' %}" alt="GarlicShop white garlic pickle banner">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="#products" class="hero-banner-link">
+                    <img src="{% static 'images/hero-slide-peeled.jpg' %}" alt="GarlicShop peeled garlic pack banner">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="{% url 'bulk_inquiry' %}" class="hero-banner-link">
+                    <img src="{% static 'images/hero-slide-bulk.jpg' %}" alt="GarlicShop bulk garlic and seed garlic banner">
+                </a>
             </div>
         </div>
+
+        <button class="carousel-control-prev hero-banner-control" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next hero-banner-control" type="button" data-bs-target="#heroBannerSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </section>
 

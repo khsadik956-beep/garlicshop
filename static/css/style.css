@@ -437,6 +437,91 @@ body{
     font-size:14px;
 }
 
+.hero-banner-carousel{
+    min-height:calc(100vh - 74px);
+    padding:0;
+    background:#0a4725;
+    display:block;
+}
+
+.hero-banner-carousel:before{
+    display:none;
+}
+
+.hero-banner-carousel .carousel,
+.hero-banner-carousel .carousel-inner,
+.hero-banner-carousel .carousel-item{
+    min-height:calc(100vh - 74px);
+}
+
+.hero-banner-carousel .carousel-inner{
+    overflow:hidden;
+}
+
+.hero-banner-carousel .carousel-item{
+    transition:opacity .85s ease-in-out;
+}
+
+.hero-banner-carousel .carousel-item-next,
+.hero-banner-carousel .carousel-item-prev,
+.hero-banner-carousel .carousel-item.active{
+    transform:none;
+}
+
+.hero-banner-carousel .active.carousel-item-start,
+.hero-banner-carousel .active.carousel-item-end{
+    transform:none;
+}
+
+.hero-banner-link{
+    display:block;
+    min-height:calc(100vh - 74px);
+    background:#0a4725;
+}
+
+.hero-banner-link img{
+    width:100%;
+    height:calc(100vh - 74px);
+    min-height:620px;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+}
+
+.hero-banner-dots{
+    margin-bottom:28px;
+    gap:8px;
+}
+
+.hero-banner-dots [data-bs-target]{
+    width:10px;
+    height:10px;
+    border-radius:999px;
+    border:0;
+    background:#ffffff;
+    opacity:.5;
+}
+
+.hero-banner-dots .active{
+    width:34px;
+    background:var(--gold);
+    opacity:1;
+}
+
+.hero-banner-control{
+    width:76px;
+}
+
+.hero-banner-control .carousel-control-prev-icon,
+.hero-banner-control .carousel-control-next-icon{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background-color:rgba(13,60,31,.92);
+    background-size:46%;
+    box-shadow:0 16px 32px rgba(4,22,12,.24);
+}
+
 @keyframes float{
 
 0%{
@@ -3537,6 +3622,28 @@ linear-gradient(rgba(13,60,31,.92), rgba(13,60,31,.92)),
 url("../images/hero-bg.jpg");
 background-size:cover;
 background-position:center;
+}
+
+.hero-banner-carousel{
+padding:0;
+background:#0a4725;
+}
+
+.hero-banner-carousel .carousel,
+.hero-banner-carousel .carousel-inner,
+.hero-banner-carousel .carousel-item,
+.hero-banner-link{
+min-height:520px;
+}
+
+.hero-banner-link img{
+height:520px;
+min-height:520px;
+object-position:center;
+}
+
+.hero-banner-control{
+display:none;
 }
 
 .hero-img{
