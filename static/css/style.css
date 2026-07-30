@@ -369,6 +369,15 @@ body{
 
 }
 
+.hero-banner-img{
+    animation:none;
+    width:min(760px, 100%);
+    aspect-ratio:16/9;
+    object-fit:cover;
+    border:1px solid rgba(232,190,55,.34);
+    box-shadow:0 30px 90px rgba(4,22,12,.34);
+}
+
 .hero-price-tag,
 .hero-quality-card{
     position:absolute;
