@@ -508,6 +508,84 @@
     </div>
 </section>
 
+<!-- ================= GARLIC MATCHMAKER ================= -->
+
+<section class="garlic-matchmaker">
+    <div class="container">
+        <div class="matchmaker-head">
+            <span class="matchmaker-kicker">New GarlicShop Feature</span>
+            <h2>Apne kaam ke hisab se garlic choose karo</h2>
+            <p>Customer ko product search karne me time na lage, isliye GarlicShop automatically use-case ke hisab se best garlic category suggest karta hai.</p>
+        </div>
+
+        <div class="matchmaker-grid">
+            <article class="match-card">
+                <div class="match-card-img">
+                    <img src="{% static 'images/whole-garlic.png' %}" alt="Fresh garlic for daily cooking">
+                </div>
+                <div class="match-card-body">
+                    <span>Daily Cooking</span>
+                    <h3>Fresh White Garlic</h3>
+                    <p>Roz ke tadka, sabzi aur chutney ke liye balanced aroma wala fresh garlic.</p>
+                    <div class="match-meta">
+                        <small>Recommended: 250g / 500g</small>
+                        <small>Freshness score: High</small>
+                    </div>
+                    <a href="{% url 'garlic_guide' %}?purpose=cooking" class="match-btn">Find Fresh Garlic</a>
+                </div>
+            </article>
+
+            <article class="match-card">
+                <div class="match-card-img">
+                    <img src="{% static 'images/powder.png' %}" alt="Garlic powder for snacks and restaurants">
+                </div>
+                <div class="match-card-body">
+                    <span>Snacks & Hotels</span>
+                    <h3>Garlic Powder</h3>
+                    <p>Pizza, fries, seasoning, marinades aur hotel kitchen ke liye quick-use powder.</p>
+                    <div class="match-meta">
+                        <small>Recommended: 100g / 250g</small>
+                        <small>Storage: Airtight jar</small>
+                    </div>
+                    <a href="{% url 'garlic_guide' %}?purpose=powder" class="match-btn">Choose Powder</a>
+                </div>
+            </article>
+
+            <article class="match-card">
+                <div class="match-card-img">
+                    <img src="{% static 'images/pickle.png' %}" alt="Garlic pickle jar">
+                </div>
+                <div class="match-card-body">
+                    <span>Meals & Paratha</span>
+                    <h3>Garlic Pickle</h3>
+                    <p>Traditional taste ke liye spicy garlic pickle, meals aur tiffin ke saath best.</p>
+                    <div class="match-meta">
+                        <small>Recommended: 200g / 300g</small>
+                        <small>Taste: Spicy and bold</small>
+                    </div>
+                    <a href="{% url 'garlic_guide' %}?purpose=pickle" class="match-btn">View Pickle</a>
+                </div>
+            </article>
+
+            <article class="match-card">
+                <div class="match-card-img">
+                    <img src="{% static 'images/offer-garlic.png' %}" alt="Bulk garlic supply">
+                </div>
+                <div class="match-card-body">
+                    <span>Shop / Restaurant</span>
+                    <h3>Bulk Garlic Supply</h3>
+                    <p>Hotels, resellers aur monthly supply ke liye custom quantity aur packing support.</p>
+                    <div class="match-meta">
+                        <small>Recommended: 2kg / 5kg / 10kg</small>
+                        <small>Support: WhatsApp inquiry</small>
+                    </div>
+                    <a href="{% url 'bulk_inquiry' %}" class="match-btn">Send Bulk Request</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
 
 
 <!-- ================= FARMER PORTAL ================= -->
