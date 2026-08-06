@@ -586,6 +586,88 @@
     </div>
 </section>
 
+<!-- ================= SMART QUANTITY CALCULATOR ================= -->
+
+<section class="garlic-calculator-section">
+    <div class="container">
+        <div class="garlic-calculator">
+            <div class="calculator-copy">
+                <span class="matchmaker-kicker">Smart Quantity Calculator</span>
+                <h2>Kitna garlic lena chahiye?</h2>
+                <p>Family, restaurant ya monthly use ke hisab se approximate garlic quantity aur best pack turant calculate karein.</p>
+            </div>
+            <div class="calculator-panel">
+                <div class="calculator-row">
+                    <label>
+                        Use Type
+                        <select id="garlicUseType">
+                            <option value="home">Home cooking</option>
+                            <option value="restaurant">Restaurant / hotel</option>
+                            <option value="pickle">Pickle making</option>
+                            <option value="farming">Seed garlic farming</option>
+                        </select>
+                    </label>
+                    <label>
+                        People / plates / kg target
+                        <input id="garlicUseCount" type="number" value="4" min="1" max="500">
+                    </label>
+                    <label>
+                        Duration
+                        <select id="garlicDuration">
+                            <option value="7">1 week</option>
+                            <option value="30" selected>1 month</option>
+                            <option value="90">3 months</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="calculator-result" id="garlicCalcResult">
+                    <strong>Recommended: 500g fresh garlic</strong>
+                    <span>Best for home cooking with 4 members for 1 month.</span>
+                    <a href="#products">View matching products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var typeInput = document.getElementById("garlicUseType");
+        var countInput = document.getElementById("garlicUseCount");
+        var durationInput = document.getElementById("garlicDuration");
+        var result = document.getElementById("garlicCalcResult");
+
+        function updateGarlicCalculator() {
+            if (!typeInput || !countInput || !durationInput || !result) return;
+            var useType = typeInput.value;
+            var count = Math.max(1, Number(countInput.value || 1));
+            var days = Math.max(1, Number(durationInput.value || 30));
+            var gramsPerUnit = {
+                home: 4,
+                restaurant: 7,
+                pickle: 100,
+                farming: 160
+            }[useType] || 4;
+            var totalGrams = Math.ceil(count * gramsPerUnit * days);
+            var pack = totalGrams >= 5000 ? Math.ceil(totalGrams / 1000) + "kg bulk pack" : totalGrams >= 1000 ? Math.ceil(totalGrams / 1000) + "kg fresh garlic" : Math.max(250, Math.ceil(totalGrams / 250) * 250) + "g pack";
+            var labels = {
+                home: "Best for home cooking and daily tadka.",
+                restaurant: "Best for restaurant prep and regular kitchen use.",
+                pickle: "Best for pickle batches and meal add-ons.",
+                farming: "Best for seed garlic planning."
+            };
+            result.innerHTML = "<strong>Recommended: " + pack + "</strong><span>" + labels[useType] + "</span><a href=\"#products\">View matching products</a>";
+        }
+
+        [typeInput, countInput, durationInput].forEach(function(input) {
+            if (!input) return;
+            input.addEventListener("input", updateGarlicCalculator);
+            input.addEventListener("change", updateGarlicCalculator);
+        });
+        updateGarlicCalculator();
+    });
+</script>
+
 
 
 <!-- ================= FARMER PORTAL ================= -->

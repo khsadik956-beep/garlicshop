@@ -68,6 +68,38 @@
       <p style="white-space: pre-line;">{{ product.highlights }}</p>
       {% endif %}
 
+      <div class="freshness-passport">
+        <div class="passport-head">
+          <div>
+            <span>Garlic Freshness Passport</span>
+            <h5>Batch trust details</h5>
+          </div>
+          <strong>{{ product.freshness_score }}%</strong>
+        </div>
+        <div class="passport-meter">
+          <span style="width: {{ product.freshness_score }}%;"></span>
+        </div>
+        <div class="passport-grid">
+          <div>
+            <small>Harvested</small>
+            <strong>{% if product.harvest_date %}{{ product.harvest_date|date:"d M Y" }}{% else %}Farm selected{% endif %}</strong>
+          </div>
+          <div>
+            <small>Packed</small>
+            <strong>{% if product.packed_date %}{{ product.packed_date|date:"d M Y" }}{% else %}Fresh batch{% endif %}</strong>
+          </div>
+          <div>
+            <small>Shelf Life</small>
+            <strong>{{ product.shelf_life_days }} days</strong>
+          </div>
+          <div>
+            <small>Aroma</small>
+            <strong>{{ product.aroma_level }}</strong>
+          </div>
+        </div>
+        <p>Every GarlicShop pack carries product type, packing details, and freshness score so customers can buy with confidence.</p>
+      </div>
+
       <div class="delivery-promise">
         <div class="service-title mb-2">
           <i class="fas fa-truck-fast"></i>
